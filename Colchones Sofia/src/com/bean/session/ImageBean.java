@@ -44,8 +44,10 @@ public class ImageBean implements Serializable {
 	private StreamedContent stream;
 	private StreamedContent logo;
 	private StreamedContent carrousel;
+	
 	private StreamedContent vendedor;
-
+	private StreamedContent proveedor;
+	
 	///////////////////////////////////////////////////////
 	// Managed Bean
 	///////////////////////////////////////////////////////
@@ -196,12 +198,12 @@ public class ImageBean implements Serializable {
 	///////////////////////////////////////////////////////
 	// Renderizar
 	///////////////////////////////////////////////////////
-	@SuppressWarnings({ "deprecation" })
 	/**
 	 * Metodo que permite traer la imagen del vendedor.
 	 * 
 	 * @return representa la imagen del vendedor.
 	 */
+	@SuppressWarnings({ "deprecation" })
 	public StreamedContent getVendedor() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE)
@@ -233,6 +235,32 @@ public class ImageBean implements Serializable {
 			}
 		}
 		return vendedor;
+	}
+	
+	/**
+	 * Metodo que permite traer la imagen del proveedor.
+	 * 
+	 * @return representa la imagen del proveedor.
+	 */
+	@SuppressWarnings("deprecation")
+	public StreamedContent getProveedor() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE)
+			this.proveedor = new DefaultStreamedContent();
+		else {
+			int id = Integer.parseInt(Face.get("id-proveedor"));
+			if (id >= 0) {
+				ProveedorDao dao= new ProveedorDao();
+				Proveedor p= dao.find(id);
+				if(p!= null && p.getFoto() != null) {
+					this.proveedor = new DefaultStreamedContent(
+							new ByteArrayInputStream(p.getFoto()), "image/png");
+				}else {
+					this.proveedor = null;
+				}
+			}
+		}
+		return proveedor;
 	}
 
 	///////////////////////////////////////////////////////
@@ -276,6 +304,10 @@ public class ImageBean implements Serializable {
 
 	public AppBean getApp() {
 		return app;
+	}
+
+	public void setProveedor(StreamedContent proveedor) {
+		this.proveedor = proveedor;
 	}
 
 	public void setApp(AppBean app) {

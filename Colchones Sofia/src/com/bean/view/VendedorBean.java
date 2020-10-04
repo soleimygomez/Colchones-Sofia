@@ -227,7 +227,7 @@ public class VendedorBean implements Serializable {
 	}
 
 	/**
-	 * Metodo que desactiva los datos del proveedor.
+	 * Metodo que desactiva los datos del vendedor.
 	 */
 	public void desactivar() {
 		if (this.search) {

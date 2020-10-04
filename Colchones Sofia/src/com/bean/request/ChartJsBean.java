@@ -53,7 +53,7 @@ public class ChartJsBean implements Serializable {
 	// Method - DonutChartModel
 	///////////////////////////////////////////////////////
 	/**
-	 * Metodo que permite saber cuantas persona por sexo trabajan en la empresa.
+	 * Metodo que permite saber cuantas vendedores por genero trabajan en la empresa.
 	 */
 	public void donutVendedorVentaGenero() {
 		// INIT
@@ -88,6 +88,7 @@ public class ChartJsBean implements Serializable {
 		data.addChartDataSet(dataSet);
 		donut_vendedor_venta_genero.setData(data);
 	}
+	
 
 	///////////////////////////////////////////////////////
 	// Renderizar - DonutChartModel

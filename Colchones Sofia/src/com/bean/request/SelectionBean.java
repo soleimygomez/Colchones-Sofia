@@ -28,6 +28,7 @@ public class SelectionBean implements Serializable {
 
 	private List<SelectItem> roles;
 	private List<SelectItem> documentos;
+	private List<SelectItem> categorias;
 
 	///////////////////////////////////////////////////////
 	// Builders
@@ -86,12 +87,38 @@ public class SelectionBean implements Serializable {
 		return documentos;
 	} 
 	
+	/**
+	 * Metodo que permita traer todas las categorias.
+	 * @return una lista con las categorias y sus productos.
+	 */
+	public List<SelectItem> getCategorias() {
+		this.categorias= new ArrayList<SelectItem>();
+		CategoriaDao dao= new CategoriaDao();
+		List<Categoria> list= dao.findByFieldList("estado", true);
+		for (Categoria categoria: list) {
+			SelectItemGroup select = new SelectItemGroup(categoria.getNombre());
+			SelectItem[] items = new SelectItem[categoria.getProductos().size()];
+			int i=0;
+			for(Producto p: categoria.getProductos()) {
+				items[i]= new SelectItem(String.valueOf(p.getIdProducto()), String.valueOf(p.getNombre()));
+				i++;
+			}
+			select.setSelectItems(items);
+			this.categorias.add(select);
+		}
+		return categorias;
+	}
+	
 	///////////////////////////////////////////////////////
 	// Getter y Setters
 	///////////////////////////////////////////////////////
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public void setCategorias(List<SelectItem> categorias) {
+		this.categorias = categorias;
 	}
 
 	public void setRoles(List<SelectItem> roles) {

@@ -42,6 +42,19 @@ public class Convertidor implements Serializable {
 		}
 		return aux;
 	}
+	
+	/**
+	 * Metodo que permite convertir un numero a cadena.
+	 * @param telefono representa el numero.
+	 * @return la cadena resultante.
+	 */
+	public static String telefono(String telefono) {
+		String aux =  null;
+		if(telefono != null && telefono.length() > 0) {
+			aux=telefono.replace("-", "");
+		}
+		return aux;
+	}
 
 	///////////////////////////////////////////////////////
 	// Getter y Setter
