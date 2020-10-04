@@ -1,0 +1,33 @@
+
+/***************************************************
+ ****************** STRUCTURE **********************
+ ***************************************************/
+
+/***************************************************
+ * GENERIC
+ ***************************************************/
+.sofia-page-structure{
+	display: grid;
+	grid-template-columns: auto 1fr 1fr;
+	grid-template-rows: auto 1fr 1fr;
+	grid-template-areas: "Top 		Top 		Top"
+	                     "Left   	Center     	Center"
+		         	     "Left 	  	Center 		Center";
+	gap: 1.25rem;
+	
+	&-top{
+		grid-area: Top;
+		//border: 1px solid red;
+	}
+	
+	&-left{
+		grid-area: Left;
+		//border: 1px solid red;
+	}
+	
+	&-center{
+		grid-area: Center;
+		padding-bottom: 4em;
+		//border: 1px solid green;
+	}
+}

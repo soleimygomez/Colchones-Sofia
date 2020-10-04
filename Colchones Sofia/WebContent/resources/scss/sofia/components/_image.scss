@@ -1,0 +1,52 @@
+/***************************************************
+ ********************* IMAGE ***********************
+ ***************************************************/
+
+/***************************************************
+ * LOGO
+ ***************************************************/
+$--element: getMap($default, ("all", "image", "all", "logo"));
+$--element-dimension: getMap($--element, ("dimension"));
+
+.sofia-logo{
+	width: nth($--element-dimension, 1);
+	height: nth($--element-dimension, 2);
+}
+
+/***************************************************
+ * IMAGE
+ ***************************************************/
+.sofia-image-80{
+	min-width: 100%;
+	display: block;
+	height: 80vh;
+	object-fit: fill;
+	background-position: center;
+	background-size: auto;
+	background-size: cover;
+
+	@media screen and (max-width: 800px) {
+        height: 40vh;
+    }
+}
+
+.sofia-image-dark{
+	filter:brightness(0.6);
+}
+
+/***************************************************
+ * IMAGE USER
+ ***************************************************/
+.sofia-image-user{
+	width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid nth(getMap($project, ("color", "body")),1);
+    object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+	overflow: hidden;
+	&:hover{
+		border-color: nth(getMap($project, ("color", "primary")),1);
+	}
+}
