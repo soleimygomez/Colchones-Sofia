@@ -21,7 +21,7 @@ import com.dao.*;
 import com.util.*;
 
 /**
- * Implementation VendedorBean.
+ * Implementation ProveedorBean.
  * 
  * @author DeveUp.
  * @phone 3118398189.
@@ -295,6 +295,7 @@ public class ProveedorBean implements Serializable {
 			this.proveedor.setEstado(estado);
 			Fecha fecha = new Fecha();
 			this.proveedor.setFechaActualizacion(new Date(fecha.fecha()));
+			this.proveedor.setUsuario(this.sesion.getLogeado());
 			this.table.getProveedor().set(this.index, this.proveedor);
 			this.update = true;
 			dao.update(this.proveedor);

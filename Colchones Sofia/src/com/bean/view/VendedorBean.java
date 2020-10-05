@@ -274,6 +274,7 @@ public class VendedorBean implements Serializable {
 			estado = (estado) ? false : true;
 			this.vendedor.setEstado(estado);
 			Fecha fecha = new Fecha();
+			this.vendedor.setUsuario(this.sesion.getLogeado());
 			this.vendedor.setFechaActualizacion(new Date(fecha.fecha()));
 			this.table.getVendedor().set(this.index, this.vendedor);
 			this.update = true;

@@ -32,6 +32,10 @@ public class DataTableBean implements Serializable {
 	private List<Proveedor> proveedor;
 	private List<Proveedor> filter_proveedor;
 	private int renderizar_proveedor;
+	
+	private List<Categoria> categoria;
+	private List<Categoria> filter_categoria;
+	private int renderizar_categoria;
 
 	///////////////////////////////////////////////////////
 	// Builders
@@ -46,6 +50,7 @@ public class DataTableBean implements Serializable {
 	public void init() {
 		this.renderizar_vendedor = 0;
 		this.renderizar_proveedor = 0;
+		this.renderizar_categoria = 0;
 	}
 
 	///////////////////////////////////////////////////////
@@ -80,6 +85,19 @@ public class DataTableBean implements Serializable {
 		}
 		this.proveedor = aux;
 	}
+	
+	/**
+	 * Metodo que inicializa los valores de la tabla categoria. 
+	 */
+	public void initCategoria() {
+		List<Categoria> aux=  categorias();
+		this.categoria = new ArrayList<Categoria>();
+		for(Categoria c: aux) {
+			ProductoDao dao= new ProductoDao();
+			c.setProductos(dao.findByFieldList("categoria", c));
+			this.categoria.add(c);
+		}
+	}
 
 	///////////////////////////////////////////////////////
 	// Method
@@ -102,6 +120,15 @@ public class DataTableBean implements Serializable {
 		ProveedorDao dao= new ProveedorDao();
 		return dao.list();
 	}
+	
+	/**
+	 * Metodo que lista todas las categorias.
+	 * @return una lista con las categorias.
+	 */
+	public List<Categoria> categorias(){
+		CategoriaDao dao= new CategoriaDao();
+		return dao.list();
+	}
 
 	///////////////////////////////////////////////////////
 	// Renderizar
@@ -120,7 +147,7 @@ public class DataTableBean implements Serializable {
 	}
 	
 	/**
-	 * Renderizando la tabla proveedores.
+	 * Renderizando la tabla proveedor.
 	 * @return una lista nueva.
 	 */
 	public List<Proveedor> getProveedor() {
@@ -129,6 +156,18 @@ public class DataTableBean implements Serializable {
 			this.renderizar_proveedor = 1;
 		}
 		return proveedor;
+	}
+	
+	/**
+	 * Renderizando la tabla categoria.
+	 * @return una lista nueva.
+	 */
+	public List<Categoria> getCategoria() {
+		if(this.renderizar_categoria == 0) {
+			initCategoria();
+			this.renderizar_categoria = 1;
+		}
+		return categoria;
 	}
 
 	///////////////////////////////////////////////////////
@@ -176,5 +215,25 @@ public class DataTableBean implements Serializable {
 
 	public void setRenderizar_proveedor(int renderizar_proveedor) {
 		this.renderizar_proveedor = renderizar_proveedor;
+	}
+
+	public void setCategoria(List<Categoria> categoria) {
+		this.categoria = categoria;
+	}
+
+	public List<Categoria> getFilter_categoria() {
+		return filter_categoria;
+	}
+
+	public void setFilter_categoria(List<Categoria> filter_categoria) {
+		this.filter_categoria = filter_categoria;
+	}
+
+	public int getRenderizar_categoria() {
+		return renderizar_categoria;
+	}
+
+	public void setRenderizar_categoria(int renderizar_categoria) {
+		this.renderizar_categoria = renderizar_categoria;
 	}
 }
