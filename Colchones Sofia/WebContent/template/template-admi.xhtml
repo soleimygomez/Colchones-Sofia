@@ -111,8 +111,16 @@
 								title="Registrar proveedor"
 								action="/pages/admi/provider/register?faces-redirect=true" />
 						</p:submenu>
-					</p:submenu>
 
+						<p:submenu label="Categoria" icon="fa fa-fw fa-bar-chart-o">
+							<p:menuitem value="Categoria" icon="fa fa-fw fa-home"
+								title="Ver estadisticas"
+								action="/pages/admi/category/index?faces-redirect=true" />
+							<p:menuitem value="Historial" icon="fa fa-fw fa-clipboard"
+								action="/pages/admi/category/all?faces-redirect=true" />
+						</p:submenu>
+						
+					</p:submenu>
 
 				</p:panelMenu>
 			</h:form>

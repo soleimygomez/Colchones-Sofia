@@ -91,10 +91,14 @@
 				<!--        -->
 				<!-- COLUMN -->
 				<!--        -->
-				<p:column style="width:30px">
+				<p:column style="width:50px">
 					<p:rowToggler />
-					<h:outputLabel value="#{index + 1}" />
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputLabel value="#{index + 1}" />
+					</h:panelGroup>
 				</p:column>
+
 
 				<!-- DOCUMENTO -->
 				<p:column filterBy="#{v.documento}" sortBy="#{v.documento}"

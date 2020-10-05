@@ -91,10 +91,14 @@
 				<!--        -->
 				<!-- COLUMN -->
 				<!--        -->
-				<p:column style="width:30px">
+				<p:column style="width:50px">
 					<p:rowToggler />
-					<h:outputLabel value="#{index + 1}" />
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputLabel value="#{index + 1}" />
+					</h:panelGroup>
 				</p:column>
+
 
 				<!-- ID -->
 				<p:column filterBy="#{p.idProveedor}" sortBy="#{p.idProveedor}"
@@ -148,6 +152,7 @@
 						<p:commandButton value="#{p.estado ? 'Activo': 'Bloqueado'}"
 							title="Cambiar estado" action="#{proveedor.estado()}"
 							update="@(.sofia-container-main-update)"
+							onclick="PF('sofia-table-update').clearFilters()"
 							styleClass="#{p.estado ? 'sofia-statu-succes': 'sofia-statu-error'} sofia-statu">
 							<f:param name="id-proveedor" value="#{p.idProveedor}" />
 						</p:commandButton>
