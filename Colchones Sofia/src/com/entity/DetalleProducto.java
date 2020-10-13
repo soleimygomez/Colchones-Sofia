@@ -2,54 +2,103 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
 
-
 /**
- * The persistent class for the detalle_producto database table.
+ * Implementation DetalleProducto.
  * 
+ * @author DeveUp.
+ * @phone 3118398189.
+ * @email deveup@gmail.com.
+ * @version 1.0.0.0.
  */
 @Entity
-@Table(name="detalle_producto")
-@NamedQuery(name="DetalleProducto.findAll", query="SELECT d FROM DetalleProducto d")
+@Table(name = "detalle_producto")
+@NamedQuery(name = "DetalleProducto.findAll", query = "SELECT d FROM DetalleProducto d")
 public class DetalleProducto implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String color;
+	private String descripcion;
+	private BigInteger descuento;
+	private String dimension;
+	private int stock;
 
 	@Lob
 	private byte[] foto;
 
-	private String medida;
+	@Column(name = "precio_costo")
+	private BigInteger precioCosto;
 
-	@Column(name="precio_costo")
-	private double precioCosto;
+	@Column(name = "precio_venta")
+	private BigInteger precioVenta;
 
-	@Column(name="precio_venta")
-	private double precioVenta;
-
-	private int stock;
-
-	//bi-directional many-to-one association to DetalleCompra
-	@OneToMany(mappedBy="detalleProducto")
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
+	@OneToMany(mappedBy = "detalleProducto")
 	private List<DetalleCompra> detalleCompras;
 
-	//bi-directional many-to-one association to Producto
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name = "id_producto")
 	private Producto producto;
 
-	//bi-directional many-to-one association to DetalleVenta
-	@OneToMany(mappedBy="detalleProducto")
+	@OneToMany(mappedBy = "detalleProducto")
 	private List<DetalleVenta> detalleVentas;
 
+	///////////////////////////////////////////////////////
+	// Builder
+	///////////////////////////////////////////////////////
 	public DetalleProducto() {
 	}
 
+	///////////////////////////////////////////////////////
+	// Method
+	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "DetalleProducto [id=" + id + ", color=" + color + ", descripcion=" + descripcion + ", descuento="
+				+ descuento + ", dimension=" + dimension + ", stock=" + stock + ", precioCosto=" + precioCosto
+				+ ", precioVenta=" + precioVenta + "]";
+	}
+
+	public DetalleCompra addDetalleCompra(DetalleCompra detalleCompra) {
+		getDetalleCompras().add(detalleCompra);
+		detalleCompra.setDetalleProducto(this);
+
+		return detalleCompra;
+	}
+
+	public DetalleCompra removeDetalleCompra(DetalleCompra detalleCompra) {
+		getDetalleCompras().remove(detalleCompra);
+		detalleCompra.setDetalleProducto(null);
+
+		return detalleCompra;
+	}
+
+	public DetalleVenta addDetalleVenta(DetalleVenta detalleVenta) {
+		getDetalleVentas().add(detalleVenta);
+		detalleVenta.setDetalleProducto(this);
+
+		return detalleVenta;
+	}
+
+	public DetalleVenta removeDetalleVenta(DetalleVenta detalleVenta) {
+		getDetalleVentas().remove(detalleVenta);
+		detalleVenta.setDetalleProducto(null);
+
+		return detalleVenta;
+	}
+
+	///////////////////////////////////////////////////////
+	// Getter and Setters
+	///////////////////////////////////////////////////////
 	public int getId() {
 		return this.id;
 	}
@@ -66,6 +115,30 @@ public class DetalleProducto implements Serializable {
 		this.color = color;
 	}
 
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public BigInteger getDescuento() {
+		return this.descuento;
+	}
+
+	public void setDescuento(BigInteger descuento) {
+		this.descuento = descuento;
+	}
+
+	public String getDimension() {
+		return this.dimension;
+	}
+
+	public void setDimension(String dimension) {
+		this.dimension = dimension;
+	}
+
 	public byte[] getFoto() {
 		return this.foto;
 	}
@@ -74,27 +147,19 @@ public class DetalleProducto implements Serializable {
 		this.foto = foto;
 	}
 
-	public String getMedida() {
-		return this.medida;
-	}
-
-	public void setMedida(String medida) {
-		this.medida = medida;
-	}
-
-	public double getPrecioCosto() {
+	public BigInteger getPrecioCosto() {
 		return this.precioCosto;
 	}
 
-	public void setPrecioCosto(double precioCosto) {
+	public void setPrecioCosto(BigInteger precioCosto) {
 		this.precioCosto = precioCosto;
 	}
 
-	public double getPrecioVenta() {
+	public BigInteger getPrecioVenta() {
 		return this.precioVenta;
 	}
 
-	public void setPrecioVenta(double precioVenta) {
+	public void setPrecioVenta(BigInteger precioVenta) {
 		this.precioVenta = precioVenta;
 	}
 
@@ -114,20 +179,6 @@ public class DetalleProducto implements Serializable {
 		this.detalleCompras = detalleCompras;
 	}
 
-	public DetalleCompra addDetalleCompra(DetalleCompra detalleCompra) {
-		getDetalleCompras().add(detalleCompra);
-		detalleCompra.setDetalleProducto(this);
-
-		return detalleCompra;
-	}
-
-	public DetalleCompra removeDetalleCompra(DetalleCompra detalleCompra) {
-		getDetalleCompras().remove(detalleCompra);
-		detalleCompra.setDetalleProducto(null);
-
-		return detalleCompra;
-	}
-
 	public Producto getProducto() {
 		return this.producto;
 	}
@@ -143,19 +194,4 @@ public class DetalleProducto implements Serializable {
 	public void setDetalleVentas(List<DetalleVenta> detalleVentas) {
 		this.detalleVentas = detalleVentas;
 	}
-
-	public DetalleVenta addDetalleVenta(DetalleVenta detalleVenta) {
-		getDetalleVentas().add(detalleVenta);
-		detalleVenta.setDetalleProducto(this);
-
-		return detalleVenta;
-	}
-
-	public DetalleVenta removeDetalleVenta(DetalleVenta detalleVenta) {
-		getDetalleVentas().remove(detalleVenta);
-		detalleVenta.setDetalleProducto(null);
-
-		return detalleVenta;
-	}
-
 }

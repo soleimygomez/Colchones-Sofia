@@ -2,43 +2,60 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
+import java.math.BigInteger;
 
 /**
- * The persistent class for the detalle_venta database table.
+ * Implementation DetalleVenta.
  * 
+ * @author DeveUp.
+ * @phone 3118398189.
+ * @email deveup@gmail.com.
+ * @version 1.0.0.0.
  */
 @Entity
-@Table(name="detalle_venta")
-@NamedQuery(name="DetalleVenta.findAll", query="SELECT d FROM DetalleVenta d")
+@Table(name = "detalle_venta")
+@NamedQuery(name = "DetalleVenta.findAll", query = "SELECT d FROM DetalleVenta d")
 public class DetalleVenta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private int cantidad;
+	private BigInteger descuento;
+	private BigInteger precio;
+	private BigInteger subtotal;
 
-	private double descuento;
-
-	private double precio;
-
-	private double subtotal;
-
-	//bi-directional many-to-one association to DetalleProducto
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name = "id_producto")
 	private DetalleProducto detalleProducto;
 
-	//bi-directional many-to-one association to Venta
 	@ManyToOne
-	@JoinColumn(name="id_venta")
+	@JoinColumn(name = "id_venta")
 	private Venta venta;
 
+	///////////////////////////////////////////////////////
+	// Builder
+	///////////////////////////////////////////////////////
 	public DetalleVenta() {
 	}
 
+	///////////////////////////////////////////////////////
+	// Method
+	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "DetalleVenta [id=" + id + ", cantidad=" + cantidad + ", descuento=" + descuento + ", precio=" + precio
+				+ ", subtotal=" + subtotal + "]";
+	}
+
+	///////////////////////////////////////////////////////
+	// Getter and Setters
+	///////////////////////////////////////////////////////
 	public int getId() {
 		return this.id;
 	}
@@ -55,27 +72,27 @@ public class DetalleVenta implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public double getDescuento() {
+	public BigInteger getDescuento() {
 		return this.descuento;
 	}
 
-	public void setDescuento(double descuento) {
+	public void setDescuento(BigInteger descuento) {
 		this.descuento = descuento;
 	}
 
-	public double getPrecio() {
+	public BigInteger getPrecio() {
 		return this.precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(BigInteger precio) {
 		this.precio = precio;
 	}
 
-	public double getSubtotal() {
+	public BigInteger getSubtotal() {
 		return this.subtotal;
 	}
 
-	public void setSubtotal(double subtotal) {
+	public void setSubtotal(BigInteger subtotal) {
 		this.subtotal = subtotal;
 	}
 
@@ -94,5 +111,4 @@ public class DetalleVenta implements Serializable {
 	public void setVenta(Venta venta) {
 		this.venta = venta;
 	}
-
 }

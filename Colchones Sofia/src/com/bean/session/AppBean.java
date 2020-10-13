@@ -18,19 +18,19 @@ import com.dao.*;
  * @email deveup@gmail.com.
  * @version 1.0.0.0.
  */
-@ManagedBean(name = "app") 
+@ManagedBean(name = "app")
 @SessionScoped
-public class AppBean implements Serializable{
+public class AppBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private App app;
-	
+
 	///////////////////////////////////////////////////////
 	// Builders
 	///////////////////////////////////////////////////////
 	public AppBean() {
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// Post
 	///////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ public class AppBean implements Serializable{
 	public void init() {
 		this.app();
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
@@ -49,20 +49,20 @@ public class AppBean implements Serializable{
 		GlobalDao gDao = new GlobalDao();
 		TelefonoDao tDao = new TelefonoDao();
 		EmailDao eDao = new EmailDao();
-		InformacionDao dao= new InformacionDao();
+		CarruselDao dao = new CarruselDao();
 		// Information
 		List<Global> list = gDao.list();
-		Global global= new Global();
-		if(list.size() >0 ) {
+		Global global = new Global();
+		if (list.size() > 0) {
 			global = gDao.list().get(0);
 		}
 		List<Telefono> telefonos = tDao.list();
 		List<Email> email = eDao.list();
-		List<Informacion> informacion= dao.list();
+		List<Carrusel> informacion = dao.list();
 		this.app = new App(email, telefonos, global);
 		this.app.setCarrousel(informacion);
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// Getter y Setters
 	///////////////////////////////////////////////////////

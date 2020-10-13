@@ -4,35 +4,65 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
- * The persistent class for the tipo_pago database table.
+ * Implementation Carrusel.
  * 
+ * @author DeveUp.
+ * @phone 3118398189.
+ * @email deveup@gmail.com.
+ * @version 1.0.0.0.
  */
 @Entity
-@Table(name="tipo_pago")
-@NamedQuery(name="TipoPago.findAll", query="SELECT t FROM TipoPago t")
+@Table(name = "tipo_pago")
+@NamedQuery(name = "TipoPago.findAll", query = "SELECT t FROM TipoPago t")
 public class TipoPago implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String nombre;
 
 	private boolean estado;
 
-	//bi-directional many-to-one association to TipoBanco
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@ManyToOne
-	@JoinColumn(name="tipo_banco")
-	private TipoBanco tipoBancoBean;
+	@JoinColumn(name = "tipo_banco")
+	private TipoBanco tipoBanco;
 
-	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="tipoPago")
+	@OneToMany(mappedBy = "tipoPago")
 	private List<Venta> ventas;
 
+	///////////////////////////////////////////////////////
+	// Builder
+	///////////////////////////////////////////////////////
 	public TipoPago() {
 	}
 
+	///////////////////////////////////////////////////////
+	// Method
+	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "TipoPago [nombre=" + nombre + ", estado=" + estado + ", tipoBanco=" + tipoBanco + "]";
+	}
+
+	public Venta addVenta(Venta venta) {
+		getVentas().add(venta);
+		venta.setTipoPago(this);
+		return venta;
+	}
+
+	public Venta removeVenta(Venta venta) {
+		getVentas().remove(venta);
+		venta.setTipoPago(null);
+		return venta;
+	}
+	
+	///////////////////////////////////////////////////////
+	// Getter and Setters 
+	///////////////////////////////////////////////////////
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -49,12 +79,12 @@ public class TipoPago implements Serializable {
 		this.estado = estado;
 	}
 
-	public TipoBanco getTipoBancoBean() {
-		return this.tipoBancoBean;
+	public TipoBanco getTipoBanco() {
+		return this.tipoBanco;
 	}
 
-	public void setTipoBancoBean(TipoBanco tipoBancoBean) {
-		this.tipoBancoBean = tipoBancoBean;
+	public void setTipoBanco(TipoBanco tipoBanco) {
+		this.tipoBanco = tipoBanco;
 	}
 
 	public List<Venta> getVentas() {
@@ -64,19 +94,4 @@ public class TipoPago implements Serializable {
 	public void setVentas(List<Venta> ventas) {
 		this.ventas = ventas;
 	}
-
-	public Venta addVenta(Venta venta) {
-		getVentas().add(venta);
-		venta.setTipoPago(this);
-
-		return venta;
-	}
-
-	public Venta removeVenta(Venta venta) {
-		getVentas().remove(venta);
-		venta.setTipoPago(null);
-
-		return venta;
-	}
-
 }

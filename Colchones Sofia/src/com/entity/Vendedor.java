@@ -23,19 +23,22 @@ public class Vendedor implements Serializable {
 	private boolean estado;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_registro")
-	private Date fechaRegistro;
-	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="fecha_actualizacion")
 	private Date fechaActualizacion;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="fecha_registro")
+	private Date fechaRegistro;
+
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@OneToOne
 	@JoinColumn(name="documento")
 	private Persona persona;
-	
+
 	@ManyToOne
-	@JoinColumn(name="usuario ")
+	@JoinColumn(name="usuario")
 	private Usuario usuario;
 
 	@OneToMany(mappedBy="vendedor")
@@ -50,6 +53,12 @@ public class Vendedor implements Serializable {
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
+	
+	@Override
+	public String toString() {
+		return "Vendedor [documento=" + documento + ", estado=" + estado + ", persona=" + persona + "]";
+	}
+	
 	public Venta addVenta(Venta venta) {
 		getVentas().add(venta);
 		venta.setVendedor(this);
@@ -61,38 +70,12 @@ public class Vendedor implements Serializable {
 		venta.setVendedor(null);
 		return venta;
 	}
-	
-	@Override
-	public String toString() {
-		return "Vendedor [documento=" + documento + ", estado=" + estado + ", persona=" + persona + ", usuario="
-				+ usuario + "]";
-	}
 
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters 
 	///////////////////////////////////////////////////////
 	public int getDocumento() {
 		return this.documento;
-	}
-
-	public Date getFechaActualizacion() {
-		return fechaActualizacion;
-	}
-
-	public void setFechaActualizacion(Date fechaActualizacion) {
-		this.fechaActualizacion = fechaActualizacion;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public void setDocumento(int documento) {
@@ -105,6 +88,14 @@ public class Vendedor implements Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	public Date getFechaActualizacion() {
+		return this.fechaActualizacion;
+	}
+
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
 	}
 
 	public Date getFechaRegistro() {
@@ -121,6 +112,14 @@ public class Vendedor implements Serializable {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario= usuario;
 	}
 
 	public List<Venta> getVentas() {

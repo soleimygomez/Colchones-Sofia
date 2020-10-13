@@ -33,7 +33,12 @@ public class Color implements Serializable {
 		this.colores= new ArrayList<String>();
 		this.colores.add("rgb(255, 99, 132)");
 		this.colores.add("rgb(54, 162, 235)");
-		this.colores.add("rgb(54, 163, 235)");
+		this.colores.add("rgb(216, 075, 032)");
+		this.colores.add("rgb(001, 093, 082)");
+		this.colores.add("rgb(255, 255, 000)");
+		this.colores.add("rgb(250, 244, 227)");
+		this.colores.add("rgb(255, 164, 032)");
+		this.colores.add("rgb(059, 131, 189)");
 	}
 	
 	///////////////////////////////////////////////////////

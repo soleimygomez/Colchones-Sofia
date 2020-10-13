@@ -5,34 +5,35 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Implementation Persona. 
+ * Implementation Persona.
+ * 
  * @author DeveUp.
  * @phone 3118398189.
  * @email deveup@gmail.com.
  * @version 1.0.0.0.
  */
 @Entity
-@NamedQuery(name="Persona.findAll", query="SELECT p FROM Persona p")
+@NamedQuery(name = "Persona.findAll", query = "SELECT p FROM Persona p")
 public class Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private int documento;
-	
+
 	private String nombre;
 	private String apellido;
 	private String direccion;
-	private String sexo;
-	private String telefono;
+	private String genero;
 	private String email;
+	private String telefono;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_actualizada")
+	@Column(name = "fecha_actualizada")
 	private Date fechaActualizada;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_creacion")
-	private Date fechaCreacion;
+	@Column(name = "fecha_registro")
+	private Date fechaRegistro;
 
 	@Lob
 	private byte[] foto;
@@ -40,36 +41,40 @@ public class Persona implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date nacimiento;
 
-	@OneToOne(mappedBy="persona")
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
+	@OneToOne(mappedBy = "persona")
 	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(name="tipo_documento")
-	private TipoDocumento tipoDocumentoBean;
+	@JoinColumn(name = "tipo_documento")
+	private TipoDocumento tipoDocumento;
 
-	@OneToOne(mappedBy="persona")
+	@OneToOne(mappedBy = "persona")
 	private Usuario usuario;
 
-	@OneToOne(mappedBy="persona")
+	@OneToOne(mappedBy = "persona")
 	private Vendedor vendedor;
-	
+
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
 	public Persona() {
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
-	
+
 	@Override
 	public String toString() {
-		return "Persona [documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + "]";
+		return "Persona [documento=" + documento + ", nombre=" + nombre + ", apellido=" + apellido + ", genero="
+				+ genero + ", email=" + email + ", telefono=" + telefono + "]";
 	}
-	
+
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters
 	///////////////////////////////////////////////////////
 	public int getDocumento() {
 		return this.documento;
@@ -111,12 +116,12 @@ public class Persona implements Serializable {
 		this.fechaActualizada = fechaActualizada;
 	}
 
-	public Date getFechaCreacion() {
-		return this.fechaCreacion;
+	public Date getFechaRegistro() {
+		return this.fechaRegistro;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
 	}
 
 	public byte[] getFoto() {
@@ -125,6 +130,14 @@ public class Persona implements Serializable {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public String getGenero() {
+		return this.genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public Date getNacimiento() {
@@ -143,14 +156,6 @@ public class Persona implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getSexo() {
-		return this.sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
 	public String getTelefono() {
 		return this.telefono;
 	}
@@ -167,12 +172,12 @@ public class Persona implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public TipoDocumento getTipoDocumentoBean() {
-		return this.tipoDocumentoBean;
+	public TipoDocumento getTipoDocumento() {
+		return this.tipoDocumento;
 	}
 
-	public void setTipoDocumentoBean(TipoDocumento tipoDocumentoBean) {
-		this.tipoDocumentoBean = tipoDocumentoBean;
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
 	public Usuario getUsuario() {

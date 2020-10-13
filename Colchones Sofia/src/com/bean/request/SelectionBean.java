@@ -28,6 +28,7 @@ public class SelectionBean implements Serializable {
 
 	private List<SelectItem> roles;
 	private List<SelectItem> documentos;
+	private List<SelectItem> proveedores;
 	private List<SelectItem> categorias;
 
 	///////////////////////////////////////////////////////
@@ -53,11 +54,11 @@ public class SelectionBean implements Serializable {
 	 * 
 	 * @return una lista con los roles de la empresa.
 	 */
-	public List<SelectItem> getRoles() {
+	public List<SelectItem> getRoles() { 
 		this.roles = new ArrayList<SelectItem>();
 		SelectItemGroup s = new SelectItemGroup("Tipo Usuario");
 		RolDao dao = new RolDao();
-		List<Rol> roles = dao.list();
+		List<Rol> roles = dao.findByFieldList("estado", true);
 		SelectItem[] items = new SelectItem[roles.size()];
 		for (int i = 0; i < roles.size(); i++) {
 			items[i] = new SelectItem(String.valueOf(roles.get(i).getNombre()),
@@ -109,6 +110,25 @@ public class SelectionBean implements Serializable {
 		return categorias;
 	}
 	
+	/**
+	 * Metodo que permita traer todos los proveedores.
+	 * @return una lista con los proveedores y sus productos.
+	 */
+	public List<SelectItem> getProveedores() {
+        this.proveedores= new ArrayList<SelectItem>();
+		ProveedorDao dao=  new ProveedorDao();
+		List<Proveedor> p= dao.findByFieldList("estado", true);
+		SelectItemGroup g1 = new SelectItemGroup("Proveedores");
+		SelectItem[] items = new SelectItem[p.size()];
+		for (int i = 0; i < p.size(); i++) {
+			Proveedor proveedor= p.get(i);
+			items[i] = new SelectItem(String.valueOf(proveedor.getIdProveedor()), String.valueOf(proveedor.getNombre()));
+		}
+        g1.setSelectItems(items);
+        this.proveedores.add(g1);
+		return proveedores;
+	}
+	
 	///////////////////////////////////////////////////////
 	// Getter y Setters
 	///////////////////////////////////////////////////////
@@ -127,5 +147,9 @@ public class SelectionBean implements Serializable {
 	
 	public void setDocumentos(List<SelectItem> documentos) {
 		this.documentos = documentos;
+	}
+
+	public void setProveedores(List<SelectItem> proveedores) {
+		this.proveedores = proveedores;
 	}
 }

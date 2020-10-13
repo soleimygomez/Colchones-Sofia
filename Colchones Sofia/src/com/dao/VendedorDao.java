@@ -22,7 +22,7 @@ import com.entity.other.*;
 public class VendedorDao extends Conexion<Vendedor> implements Interface<Vendedor> {
 
 	///////////////////////////////////////////////////////
-	// Builders
+	// Builder
 	///////////////////////////////////////////////////////
 	public VendedorDao() {
 		super(Vendedor.class);
@@ -33,10 +33,11 @@ public class VendedorDao extends Conexion<Vendedor> implements Interface<Vendedo
 	///////////////////////////////////////////////////////
 	/**
 	 * Metodo que permite conocer cuantos vendedores hay por genero.
+	 * 
 	 * @return una lista con el resultado.
 	 */
 	public List<ChartJS> cantidadGenero() {
-		String sql = "SELECT pp.sexo as sexo, COUNT(pp.sexo) FROM Vendedor p JOIN Persona pp ON p.documento = pp.documento GROUP BY pp.sexo";
+		String sql = "SELECT pp.genero AS genero, COUNT(pp.genero) FROM Vendedor p JOIN Persona pp ON (p.documento = pp.documento) GROUP BY pp.genero";
 		Query query = getEm().createQuery(sql);
 		@SuppressWarnings("rawtypes")
 		List result = query.getResultList();

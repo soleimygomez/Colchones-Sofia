@@ -26,17 +26,17 @@ import com.util.Fecha;
  * @version 1.0.0.0.
  */
 @ManagedBean(name = "sesion")
-@SessionScoped  
+@SessionScoped
 public class SessionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private FacesMessage mensaje;   
-
+   
 	private Validar usuario;
 	private String inicio, fin;
 	private int esperar;
-     
+
 	private Usuario logeado;
 	private int intentos;
 	private String path;
@@ -44,7 +44,7 @@ public class SessionBean implements Serializable {
 	///////////////////////////////////////////////////////
 	// Builders
 	///////////////////////////////////////////////////////
-	public SessionBean() { 
+	public SessionBean() {
 	}
 
 	///////////////////////////////////////////////////////
@@ -58,13 +58,14 @@ public class SessionBean implements Serializable {
 		this.usuario = new Validar();
 		this.intentos = 3;
 		this.esperar = 5;
-	}
+	} 
 
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
 	/**
 	 * Metodo que permite verificar los datos del usuario a logear.
+	 * 
 	 * @return representa el estado obtenido.
 	 */
 	@SuppressWarnings("deprecation")
@@ -79,7 +80,7 @@ public class SessionBean implements Serializable {
 					UsuarioDao uDao = new UsuarioDao();
 					Usuario usuario = uDao.findByField("documento", persona.getDocumento());
 					if (usuario != null) {
-						if (usuario.getRolBean().getNombre().contentEquals(this.usuario.getTipo())) {
+						if (usuario.getRol().getNombre().contentEquals(this.usuario.getTipo())) {
 							if (usuario.getEstado()) {
 								String clave = usuario.getClave();
 								if (clave.contentEquals(this.usuario.getClave())) {
@@ -91,7 +92,7 @@ public class SessionBean implements Serializable {
 									this.mensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success",
 											"Usuario Logeado.");
 									this.usuario = new Validar();
-									return rol(this.logeado.getRolBean().getNombre());
+									return rol(this.logeado.getRol().getNombre());
 
 								} else {
 									this.mensaje = new FacesMessage(FacesMessage.SEVERITY_WARN, "",
@@ -156,34 +157,35 @@ public class SessionBean implements Serializable {
 		} else {
 			this.intentos = 3;
 			this.usuario = new Validar();
-			return rol(this.logeado.getRolBean().getNombre());
+			return rol(this.logeado.getRol().getNombre());
 		}
 		FacesContext.getCurrentInstance().addMessage(null, this.mensaje);
 		return "login";
 	}
-	
+
 	/**
 	 * Metodo que permite recuperar la contraseña.
 	 */
 	public String recuperar() {
 		FacesMessage message = null;
 		if (logeado == null) {
-			PersonaDao pDao= new PersonaDao();
-			Persona persona= pDao.findByField("email", this.usuario.getEmail());
-			if(persona!= null) {
+			PersonaDao pDao = new PersonaDao();
+			Persona persona = pDao.findByField("email", this.usuario.getEmail());
+			if (persona != null) {
 				UsuarioDao dao = new UsuarioDao();
 				Usuario usuario = dao.findByField("documento", persona.getDocumento());
 				if (usuario != null) {
-					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Se te ha enviado un correo con la clave.");
-				}else {
+					message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
+							"Se te ha enviado un correo con la clave.");
+				} else {
 					message = new FacesMessage(FacesMessage.SEVERITY_WARN, "", "El usuario no esta registrado.");
 				}
-			}else {
+			} else {
 				message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "REGISTRASE", "Usuario No existe.");
 			}
-		}else {
+		} else {
 			this.usuario = new Validar();
-			return rol(this.logeado.getRolBean().getNombre());
+			return rol(this.logeado.getRol().getNombre());
 		}
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		return "login";

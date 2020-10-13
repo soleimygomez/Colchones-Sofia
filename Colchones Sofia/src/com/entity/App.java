@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Implementation App. 
+ * Implementation App.
+ * 
  * @author DeveUp.
  * @phone 3118398189.
  * @email deveup@gmail.com.
@@ -14,57 +14,64 @@ import java.util.List;
  */
 public class App implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Email> email;
 	private List<Telefono> telefono;
 	private Global global;
 
-	private List<Informacion> carrousel;
+	private List<Carrusel> carrousel;
+
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
-	public App() {	
+	public App() {
 		this(null, null, null);
 	}
-	
+
 	public App(List<Email> email, List<Telefono> telefono, Global global) {
 		super();
 		this.email = email;
 		this.telefono = telefono;
 		this.global = global;
-		this.carrousel= new ArrayList<Informacion>();
+		this.carrousel = new ArrayList<Carrusel>();
 	}
-	
+
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter y Setters
 	///////////////////////////////////////////////////////
 	public List<Email> getEmail() {
 		return email;
 	}
+
 	public void setEmail(List<Email> email) {
 		this.email = email;
 	}
+
 	public List<Telefono> getTelefono() {
 		return telefono;
 	}
+
 	public void setTelefono(List<Telefono> telefono) {
 		this.telefono = telefono;
 	}
+
 	public Global getGlobal() {
 		return global;
 	}
+
 	public void setGlobal(Global global) {
 		this.global = global;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public List<Informacion> getCarrousel() {
+	public List<Carrusel> getCarrousel() {
 		return carrousel;
 	}
 
-	public void setCarrousel(List<Informacion> carrousel) {
+	public void setCarrousel(List<Carrusel> carrousel) {
 		this.carrousel = carrousel;
 	}
 }

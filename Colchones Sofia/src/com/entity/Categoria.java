@@ -2,7 +2,6 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -26,20 +25,23 @@ public class Categoria implements Serializable {
 	private String nombre;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="fecha_actualizacion")
+	private Date fechaActualizacion;
+
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="fecha_registro")
 	private Date fechaRegistro;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_actualizacion")
-	private Date fechaActualizacion;
-	
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@ManyToOne
-	@JoinColumn(name="usuario ")
+	@JoinColumn(name="usuario")
 	private Usuario usuario;
- 
+
 	@OneToMany(mappedBy="categoria")
 	private List<Producto> productos;
-	
+
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
@@ -57,17 +59,19 @@ public class Categoria implements Serializable {
 	public Producto addProducto(Producto producto) {
 		getProductos().add(producto);
 		producto.setCategoria(this);
+
 		return producto;
 	}
 
 	public Producto removeProducto(Producto producto) {
 		getProductos().remove(producto);
 		producto.setCategoria(null);
+
 		return producto;
 	}
-
+	
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters 
 	///////////////////////////////////////////////////////
 	public int getId() {
 		return this.id;
@@ -93,6 +97,22 @@ public class Categoria implements Serializable {
 		this.estado = estado;
 	}
 
+	public Date getFechaActualizacion() {
+		return this.fechaActualizacion;
+	}
+
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public Date getFechaRegistro() {
+		return this.fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -101,35 +121,19 @@ public class Categoria implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public List<Producto> getProductos() {
 		return this.productos;
 	}
 
 	public void setProductos(List<Producto> productos) {
 		this.productos = productos;
-	}
-
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
-	public Date getFechaActualizacion() {
-		return fechaActualizacion;
-	}
-
-	public void setFechaActualizacion(Date fechaActualizacion) {
-		this.fechaActualizacion = fechaActualizacion;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 }

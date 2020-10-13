@@ -78,7 +78,7 @@ public class Security implements Serializable {
 		if (permit != null && permit.length() > 0) { 
 			Usuario aux = this.session.getLogeado();
 			if (aux != null) {
-				Rol rol = aux.getRolBean();
+				Rol rol = aux.getRol();
 				if (rol != null) {
 					if (!permit.equals(rol.getNombre())) {
 						direct();

@@ -47,6 +47,8 @@ public class ImageBean implements Serializable {
 	
 	private StreamedContent vendedor;
 	private StreamedContent proveedor;
+	private StreamedContent usuario;
+	
 	
 	///////////////////////////////////////////////////////
 	// Managed Bean
@@ -104,9 +106,9 @@ public class ImageBean implements Serializable {
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE)
 			this.carrousel = new DefaultStreamedContent();
 		else {
-			InformacionDao dao = new InformacionDao();
+			CarruselDao dao = new CarruselDao();
 			int id = Integer.parseInt(context.getExternalContext().getRequestParameterMap().get("id"));
-			Informacion i = dao.find(id);
+			Carrusel i = dao.find(id);
 			if (i != null) {
 				this.carrousel = new DefaultStreamedContent(new ByteArrayInputStream(i.getFoto()), "image/png");
 			} else {
@@ -218,7 +220,7 @@ public class ImageBean implements Serializable {
 				Vendedor vendedor = null;
 				// SEARCH
 				for (Vendedor ve : v) {
-					if (ve.getPersona().getTipoDocumentoBean().getNombre().equals(tipo)) {
+					if (ve.getPersona().getTipoDocumento().getNombre().equals(tipo)) {
 						vendedor = ve;
 						break;
 					}
@@ -261,6 +263,31 @@ public class ImageBean implements Serializable {
 			}
 		}
 		return proveedor;
+	}
+	
+	/**
+	 * Metodo que permite traer la imagen del usuario.
+	 * 
+	 * @return representa la imagen del usuario.
+	 */
+	@SuppressWarnings("deprecation")
+	public StreamedContent getUsuario() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE)
+			this.usuario = new DefaultStreamedContent();
+		else {
+			int id = Integer.parseInt(Face.get("documento-usuario"));
+			if (id >= 0) {
+				UsuarioDao dao= new UsuarioDao();
+				Usuario u= dao.find(id);
+				if(u!= null && u.getFoto() != null) {
+					this.usuario = new DefaultStreamedContent(new ByteArrayInputStream(u.getFoto()), "image/png");
+				}else {
+					this.usuario = null;
+				}
+			}
+		}
+		return usuario;
 	}
 
 	///////////////////////////////////////////////////////
@@ -316,5 +343,9 @@ public class ImageBean implements Serializable {
 
 	public void setCarrousel(StreamedContent carrousel) {
 		this.carrousel = carrousel;
+	}
+
+	public void setUsuario(StreamedContent usuario) {
+		this.usuario = usuario;
 	}
 }

@@ -519,6 +519,7 @@ public class ProveedorBean implements Serializable {
 	 * @param p represenat el proveedor.
 	 * @return representa el mensage generado.
 	 */
+	@SuppressWarnings("deprecation")
 	private FacesMessage faceRegistrarProductos(Proveedor p) {
 		this.message = null;
 		if (p != null && p.getIdProveedor() > 0) {
@@ -530,7 +531,10 @@ public class ProveedorBean implements Serializable {
 					int id = Integer.parseInt(aux);
 					ProveedorProducto pp = new ProveedorProducto();
 					pp.setProducto(dDao.find(id));
+					Fecha fecha= new Fecha();
 					pp.setProveedor(p);
+					pp.setFechaRegistro(new Date(fecha.fecha())); 
+					pp.setUsuario(this.sesion.getLogeado()); 
 					if (pp.getProducto() != null) {
 						dao.insert(pp);
 						j++;

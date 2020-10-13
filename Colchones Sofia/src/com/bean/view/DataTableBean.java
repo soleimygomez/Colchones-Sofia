@@ -28,14 +28,18 @@ public class DataTableBean implements Serializable {
 	private List<Vendedor> vendedor;
 	private List<Vendedor> filter_vendedor;
 	private int renderizar_vendedor;
-	
+
 	private List<Proveedor> proveedor;
 	private List<Proveedor> filter_proveedor;
 	private int renderizar_proveedor;
-	
+
 	private List<Categoria> categoria;
 	private List<Categoria> filter_categoria;
 	private int renderizar_categoria;
+
+	private List<Usuario> usuarios_logeados;
+	private List<Categoria> filter_usuarios_logeados;
+	private int renderizar_usuarios_logeados;
 
 	///////////////////////////////////////////////////////
 	// Builders
@@ -51,6 +55,7 @@ public class DataTableBean implements Serializable {
 		this.renderizar_vendedor = 0;
 		this.renderizar_proveedor = 0;
 		this.renderizar_categoria = 0;
+		this.renderizar_usuarios_logeados = 0;
 	}
 
 	///////////////////////////////////////////////////////
@@ -69,34 +74,42 @@ public class DataTableBean implements Serializable {
 			this.vendedor.add(v);
 		}
 	}
-	
+
 	/**
-	 * Metodo que inicializa los valores de la tabla proveedor. 
+	 * Metodo que inicializa los valores de la tabla proveedor.
 	 */
 	public void initProveedor() {
 		this.proveedor = proveedores();
-		List<Proveedor> aux= new ArrayList<Proveedor>();
-		for(Proveedor p: this.proveedor) {
-			List<ProveedorProducto> productos= new ArrayList<ProveedorProducto>();
-			ProveedorProductoDao dao= new ProveedorProductoDao();
-			productos= dao.findByFieldList("proveedor", p);
+		List<Proveedor> aux = new ArrayList<Proveedor>();
+		for (Proveedor p : this.proveedor) {
+			List<ProveedorProducto> productos = new ArrayList<ProveedorProducto>();
+			ProveedorProductoDao dao = new ProveedorProductoDao();
+			productos = dao.findByFieldList("proveedor", p);
 			p.setProveedorProductos(productos);
 			aux.add(p);
 		}
 		this.proveedor = aux;
 	}
-	
+
 	/**
-	 * Metodo que inicializa los valores de la tabla categoria. 
+	 * Metodo que inicializa los valores de la tabla categoria.
 	 */
 	public void initCategoria() {
-		List<Categoria> aux=  categorias();
+		List<Categoria> aux = categorias();
 		this.categoria = new ArrayList<Categoria>();
-		for(Categoria c: aux) {
-			ProductoDao dao= new ProductoDao();
+		for (Categoria c : aux) {
+			ProductoDao dao = new ProductoDao();
 			c.setProductos(dao.findByFieldList("categoria", c));
 			this.categoria.add(c);
 		}
+	}
+
+	/**
+	 * Metodo que inicializa los valores de la tabla usuarios logeados.
+	 */
+	public void initUsuariosLogeados() {
+		UsuarioDao dao = new UsuarioDao();
+		this.usuarios_logeados = dao.list();
 	}
 
 	///////////////////////////////////////////////////////
@@ -111,22 +124,24 @@ public class DataTableBean implements Serializable {
 		VendedorDao dao = new VendedorDao();
 		return dao.list();
 	}
-	
+
 	/**
 	 * Metodo que obtine todos los proveedores.
+	 * 
 	 * @return una lista con todos los proveedores.
 	 */
 	public List<Proveedor> proveedores() {
-		ProveedorDao dao= new ProveedorDao();
+		ProveedorDao dao = new ProveedorDao();
 		return dao.list();
 	}
-	
+
 	/**
 	 * Metodo que lista todas las categorias.
+	 * 
 	 * @return una lista con las categorias.
 	 */
-	public List<Categoria> categorias(){
-		CategoriaDao dao= new CategoriaDao();
+	public List<Categoria> categorias() {
+		CategoriaDao dao = new CategoriaDao();
 		return dao.list();
 	}
 
@@ -145,29 +160,44 @@ public class DataTableBean implements Serializable {
 		}
 		return vendedor;
 	}
-	
+
 	/**
 	 * Renderizando la tabla proveedor.
+	 * 
 	 * @return una lista nueva.
 	 */
 	public List<Proveedor> getProveedor() {
-		if(this.renderizar_proveedor == 0) {
+		if (this.renderizar_proveedor == 0) {
 			initProveedor();
 			this.renderizar_proveedor = 1;
 		}
 		return proveedor;
 	}
-	
+
 	/**
 	 * Renderizando la tabla categoria.
+	 * 
 	 * @return una lista nueva.
 	 */
 	public List<Categoria> getCategoria() {
-		if(this.renderizar_categoria == 0) {
+		if (this.renderizar_categoria == 0) {
 			initCategoria();
 			this.renderizar_categoria = 1;
 		}
 		return categoria;
+	}
+
+	/**
+	 * Renderizando la tabla usuario logeado.
+	 * 
+	 * @return una lista nueva.
+	 */
+	public List<Usuario> getUsuarios_logeados() {
+		if (this.renderizar_usuarios_logeados == 0) {
+			initUsuariosLogeados();
+			this.renderizar_usuarios_logeados = 1;
+		}
+		return usuarios_logeados;
 	}
 
 	///////////////////////////////////////////////////////
@@ -235,5 +265,25 @@ public class DataTableBean implements Serializable {
 
 	public void setRenderizar_categoria(int renderizar_categoria) {
 		this.renderizar_categoria = renderizar_categoria;
+	}
+
+	public void setUsuarios_logeados(List<Usuario> usuarios_logeados) {
+		this.usuarios_logeados = usuarios_logeados;
+	}
+
+	public List<Categoria> getFilter_usuarios_logeados() {
+		return filter_usuarios_logeados;
+	}
+
+	public void setFilter_usuarios_logeados(List<Categoria> filter_usuarios_logeados) {
+		this.filter_usuarios_logeados = filter_usuarios_logeados;
+	}
+
+	public int getRenderizar_usuarios_logeados() {
+		return renderizar_usuarios_logeados;
+	}
+
+	public void setRenderizar_usuarios_logeados(int renderizar_usuarios_logeados) {
+		this.renderizar_usuarios_logeados = renderizar_usuarios_logeados;
 	}
 }

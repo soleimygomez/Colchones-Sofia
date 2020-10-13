@@ -38,7 +38,7 @@ public class VendedorBean implements Serializable {
 	private boolean insert;
 	private boolean search;
 	private boolean update;
-	private boolean remove; 
+	private boolean remove;
 	private boolean hidden;
 	private boolean error;
 	private boolean active;
@@ -89,7 +89,7 @@ public class VendedorBean implements Serializable {
 	public void initVendedor() {
 		this.vendedor = new Vendedor();
 		this.vendedor.setPersona(new Persona());
-		this.vendedor.getPersona().setTipoDocumentoBean(new TipoDocumento());
+		this.vendedor.getPersona().setTipoDocumento(new TipoDocumento());
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class VendedorBean implements Serializable {
 		int aux = 0;
 		for (Vendedor v : this.table.getVendedor()) {
 			if (v.getDocumento() == documento) {
-				if (v.getPersona().getTipoDocumentoBean().getNombre().equals(tipo)) {
+				if (v.getPersona().getTipoDocumento().getNombre().equals(tipo)) {
 					return aux;
 				}
 			}
@@ -178,7 +178,7 @@ public class VendedorBean implements Serializable {
 		this.active = false;
 		if (this.vendedor != null && this.vendedor.getDocumento() > 0) {
 			int documento = this.vendedor.getDocumento();
-			String tipo_documento = this.vendedor.getPersona().getTipoDocumentoBean().getNombre();
+			String tipo_documento = this.vendedor.getPersona().getTipoDocumento().getNombre();
 			VendedorDao dao = new VendedorDao();
 			this.vendedor = dao.find(this.vendedor.getDocumento());
 			if (this.vendedor == null) {
@@ -187,7 +187,7 @@ public class VendedorBean implements Serializable {
 				this.vendedor.setDocumento(documento);
 				this.vendedor.setPersona(pDao.find(documento));
 				if (this.vendedor.getPersona() != null) {
-					if (this.vendedor.getPersona().getTipoDocumentoBean().getNombre().equals(tipo_documento)) {
+					if (this.vendedor.getPersona().getTipoDocumento().getNombre().equals(tipo_documento)) {
 						message = new FacesMessage(FacesMessage.SEVERITY_INFO, "",
 								"Se han encontrado los datos de la persona este documento " + documento + ".");
 						this.search = true;
@@ -312,7 +312,7 @@ public class VendedorBean implements Serializable {
 								if (p.getEmail() != null && p.getEmail().length() > 0) {
 									if (p.getTelefono() != null && p.getTelefono().length() > 0) {
 										if (p.getNacimiento() != null) {
-											if (p.getSexo() != null && p.getSexo().length() > 0) {
+											if (p.getGenero() != null && p.getGenero().length() > 0) {
 												this.error = false;
 												return null;
 											} else {
@@ -444,7 +444,7 @@ public class VendedorBean implements Serializable {
 				this.search = true;
 				this.update = true;
 				Fecha fecha = new Fecha();
-				if(image.getImage() != null) {
+				if (image.getImage() != null) {
 					p.setFoto(image.getImage());
 				}
 				p.setFechaActualizada(new Date(fecha.fecha()));
@@ -458,11 +458,11 @@ public class VendedorBean implements Serializable {
 				p.setApellido(p.getApellido().toUpperCase());
 				p.setNombre(p.getNombre().toUpperCase());
 				p.setDocumento(this.vendedor.getDocumento());
-				if(image.getImage() != null) {
+				if (image.getImage() != null) {
 					p.setFoto(image.getImage());
 				}
 				Fecha fecha = new Fecha();
-				p.setFechaCreacion(new Date(fecha.fecha()));
+				p.setFechaRegistro(new Date(fecha.fecha()));
 				dao.insert(p);
 				p = dao.find(this.vendedor.getDocumento());
 				if (p != null) {
@@ -518,7 +518,7 @@ public class VendedorBean implements Serializable {
 				this.vendedor.setUsuario(this.sesion.getLogeado());
 				this.vendedor.getPersona().setApellido(this.vendedor.getPersona().getApellido().toUpperCase());
 				this.vendedor.getPersona().setNombre(this.vendedor.getPersona().getNombre().toUpperCase());
-				if(image.getImage() != null) {
+				if (image.getImage() != null) {
 					this.vendedor.getPersona().setFoto(this.image.getImage());
 				}
 				this.table.getVendedor().set(this.index, this.vendedor);

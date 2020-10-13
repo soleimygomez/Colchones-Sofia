@@ -2,92 +2,105 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
- * Implementation Producto. 
+ * Implementation Producto.
+ * 
  * @author DeveUp.
  * @phone 3118398189.
  * @email deveup@gmail.com.
  * @version 1.0.0.0.
  */
 @Entity
-@NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
+@NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
 public class Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_producto")
+	@Column(name = "id_producto")
 	private int idProducto;
 
-	@Lob
-	@Column(name="codigo_barras")
-	private byte[] codigoBarras;
-
-	@Lob
-	private byte[] foto;
 	private String descripcion;
 	private boolean estado;
-	private byte garantia;
+	private boolean garantia;
 	private String nombre;
 	private int stock;
 
-	@OneToMany(mappedBy="producto")
+	@Lob
+	@Column(name = "codigo_barra")
+	private byte[] codigoBarra;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_actualizacion")
+	private Date fechaActualizacion;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_registro")
+	private Date fechaRegistro;
+
+	@Lob
+	private byte[] foto;
+
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
+	@OneToMany(mappedBy = "producto")
 	private List<DetalleProducto> detalleProductos;
 
 	@ManyToOne
-	@JoinColumn(name="id_categoria")
+	@JoinColumn(name = "id_categoria")
 	private Categoria categoria;
 
-	@OneToMany(mappedBy="producto")
+	@ManyToOne
+	@JoinColumn(name = "usuario")
+	private Usuario usuario;
+
+	@OneToMany(mappedBy = "producto")
 	private List<ProveedorProducto> proveedorProductos;
-	
+
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
 	public Producto() {
 	}
-	
+
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
 	@Override
 	public String toString() {
-		return "Producto [idProducto=" + idProducto + ", estado=" + estado + ", nombre=" + nombre + ", stock=" + stock
-				+ ", categoria=" + categoria + "]";
-	}
-	
-	public ProveedorProducto addProveedorProducto(ProveedorProducto proveedorProducto) {
-		getProveedorProductos().add(proveedorProducto);
-		proveedorProducto.setProducto(this);
-
-		return proveedorProducto;
+		return "Producto [idProducto=" + idProducto + ", estado=" + estado + ", garantia=" + garantia + ", nombre="
+				+ nombre + ", stock=" + stock + ", categoria=" + categoria + "]";
 	}
 
-	public ProveedorProducto removeProveedorProducto(ProveedorProducto proveedorProducto) {
-		getProveedorProductos().remove(proveedorProducto);
-		proveedorProducto.setProducto(null);
-
-		return proveedorProducto;
-	}
-	
 	public DetalleProducto addDetalleProducto(DetalleProducto detalleProducto) {
 		getDetalleProductos().add(detalleProducto);
 		detalleProducto.setProducto(this);
-
 		return detalleProducto;
 	}
 
 	public DetalleProducto removeDetalleProducto(DetalleProducto detalleProducto) {
 		getDetalleProductos().remove(detalleProducto);
 		detalleProducto.setProducto(null);
-
 		return detalleProducto;
 	}
-	
+
+	public ProveedorProducto addProveedorProducto(ProveedorProducto proveedorProducto) {
+		getProveedorProductos().add(proveedorProducto);
+		proveedorProducto.setProducto(this);
+		return proveedorProducto;
+	}
+
+	public ProveedorProducto removeProveedorProducto(ProveedorProducto proveedorProducto) {
+		getProveedorProductos().remove(proveedorProducto);
+		proveedorProducto.setProducto(null);
+		return proveedorProducto;
+	}
+
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters
 	///////////////////////////////////////////////////////
 	public int getIdProducto() {
 		return this.idProducto;
@@ -97,12 +110,12 @@ public class Producto implements Serializable {
 		this.idProducto = idProducto;
 	}
 
-	public byte[] getCodigoBarras() {
-		return this.codigoBarras;
+	public byte[] getCodigoBarra() {
+		return this.codigoBarra;
 	}
 
-	public void setCodigoBarras(byte[] codigoBarras) {
-		this.codigoBarras = codigoBarras;
+	public void setCodigoBarra(byte[] codigoBarra) {
+		this.codigoBarra = codigoBarra;
 	}
 
 	public String getDescripcion() {
@@ -121,6 +134,22 @@ public class Producto implements Serializable {
 		this.estado = estado;
 	}
 
+	public Date getFechaActualizacion() {
+		return this.fechaActualizacion;
+	}
+
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public Date getFechaRegistro() {
+		return this.fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	public byte[] getFoto() {
 		return this.foto;
 	}
@@ -129,11 +158,11 @@ public class Producto implements Serializable {
 		this.foto = foto;
 	}
 
-	public byte getGarantia() {
+	public boolean getGarantia() {
 		return this.garantia;
 	}
 
-	public void setGarantia(byte garantia) {
+	public void setGarantia(boolean garantia) {
 		this.garantia = garantia;
 	}
 
@@ -167,6 +196,14 @@ public class Producto implements Serializable {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public List<ProveedorProducto> getProveedorProductos() {

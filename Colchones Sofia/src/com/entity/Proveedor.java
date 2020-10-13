@@ -5,95 +5,95 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
- * Implementation Proveedor. 
+ * Implementation Proveedor.
+ * 
  * @author DeveUp.
  * @phone 3118398189.
  * @email deveup@gmail.com.
  * @version 1.0.0.0.
  */
 @Entity
-@NamedQuery(name="Proveedor.findAll", query="SELECT p FROM Proveedor p")
+@NamedQuery(name = "Proveedor.findAll", query = "SELECT p FROM Proveedor p")
 public class Proveedor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_proveedor")
+	@Column(name = "id_proveedor")
 	private int idProveedor;
 
-	private String direccion;
-	private boolean estado;
 	private String nombre;
 	private String telefono;
- 
+	private String direccion;
+	private boolean estado;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_actualizacion")
+	private Date fechaActualizacion;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_registro")
+	private Date fechaRegistro;
+
 	@Lob
 	private byte[] foto;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_registro")
-	private Date fechaRegistro;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_actualizacion")
-	private Date fechaActualizacion;
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
+	@OneToMany(mappedBy = "proveedor")
+	private List<DetalleCompra> detalleCompras;
 
 	@ManyToOne
-	@JoinColumn(name="usuario")
+	@JoinColumn(name = "usuario")
 	private Usuario usuario;
 
-	@OneToMany(mappedBy="proveedor")
+	@OneToMany(mappedBy = "proveedor")
 	private List<ProveedorProducto> proveedorProductos;
-	
-	@OneToMany(mappedBy="proveedor")
-	private List<DetalleCompra> detalleCompras;
-	
+
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
 	public Proveedor() {
 	}
 
-	
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "Proveedor [idProveedor=" + idProveedor + ", nombre=" + nombre + ", estado=" + estado + ", usuario="
+				+ usuario + "]";
+	}
+
 	public DetalleCompra addDetalleCompra(DetalleCompra detalleCompra) {
 		getDetalleCompras().add(detalleCompra);
 		detalleCompra.setProveedor(this);
-
 		return detalleCompra;
 	}
 
 	public DetalleCompra removeDetalleCompra(DetalleCompra detalleCompra) {
 		getDetalleCompras().remove(detalleCompra);
 		detalleCompra.setProveedor(null);
-
 		return detalleCompra;
 	}
-	
+
 	public ProveedorProducto addProveedorProducto(ProveedorProducto proveedorProducto) {
 		getProveedorProductos().add(proveedorProducto);
 		proveedorProducto.setProveedor(this);
-
 		return proveedorProducto;
 	}
 
 	public ProveedorProducto removeProveedorProducto(ProveedorProducto proveedorProducto) {
 		getProveedorProductos().remove(proveedorProducto);
 		proveedorProducto.setProveedor(null);
-
 		return proveedorProducto;
 	}
-	
-	@Override
-	public String toString() {
-		return "Proveedor [idProveedor=" + idProveedor + ", estado=" + estado + ", nombre=" + nombre + "]";
-	}
 
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters
 	///////////////////////////////////////////////////////
+
 	public int getIdProveedor() {
 		return this.idProveedor;
 	}
@@ -166,7 +166,7 @@ public class Proveedor implements Serializable {
 		this.detalleCompras = detalleCompras;
 	}
 
-	public Usuario getUsuarioBean() {
+	public Usuario getUsuario() {
 		return this.usuario;
 	}
 

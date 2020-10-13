@@ -18,13 +18,17 @@ public class TipoDocumento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String nombre;
 
 	private boolean estado;
 
-	@OneToMany(mappedBy="tipoDocumentoBean")
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
+	@OneToMany(mappedBy="tipoDocumento")
 	private List<Persona> personas;
-
+	
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
@@ -34,25 +38,25 @@ public class TipoDocumento implements Serializable {
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "TipoDocumento [nombre=" + nombre + ", estado=" + estado + "]";
+	}
+	
 	public Persona addPersona(Persona persona) {
 		getPersonas().add(persona);
-		persona.setTipoDocumentoBean(this);
+		persona.setTipoDocumento(this);
 		return persona;
 	}
 
 	public Persona removePersona(Persona persona) {
 		getPersonas().remove(persona);
-		persona.setTipoDocumentoBean(null);
+		persona.setTipoDocumento(null);
 		return persona;
-	}
-	
-	@Override
-	public String toString() {
-		return "TipoDocumento [nombre=" + nombre + ", estado=" + estado + "]";
 	}
 
 	///////////////////////////////////////////////////////
-	// Getter y Setters 
+	// Getter and Setters
 	///////////////////////////////////////////////////////
 	public String getNombre() {
 		return this.nombre;

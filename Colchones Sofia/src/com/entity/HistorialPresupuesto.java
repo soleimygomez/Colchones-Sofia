@@ -2,10 +2,9 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.Date;
 
 /**
- * Implementation EstadoVenta.
+ * Implementation HistorialPresupuesto.
  * 
  * @author DeveUp.
  * @phone 3118398189.
@@ -13,36 +12,34 @@ import java.util.Date;
  * @version 1.0.0.0.
  */
 @Entity
-@Table(name = "estado_venta")
-@NamedQuery(name = "EstadoVenta.findAll", query = "SELECT e FROM EstadoVenta e")
-public class EstadoVenta implements Serializable {
+@Table(name = "historial_presupuesto")
+@NamedQuery(name = "HistorialPresupuesto.findAll", query = "SELECT h FROM HistorialPresupuesto h")
+public class HistorialPresupuesto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String estado;
+	private String descripcion;
+
+	private byte estado;
 
 	///////////////////////////////////////////////////////
 	// Map
 	///////////////////////////////////////////////////////
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_registro")
-	private Date fechaRegistro;
+	@ManyToOne
+	@JoinColumn(name = "compra")
+	private Compra compra;
 
 	@ManyToOne
-	@JoinColumn(name = "id_venta")
+	@JoinColumn(name = "venta")
 	private Venta venta;
-
-	@ManyToOne
-	@JoinColumn(name = "usuario")
-	private Usuario usuario;
 
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
-	public EstadoVenta() {
+	public HistorialPresupuesto() {
 	}
 
 	///////////////////////////////////////////////////////
@@ -50,7 +47,8 @@ public class EstadoVenta implements Serializable {
 	///////////////////////////////////////////////////////
 	@Override
 	public String toString() {
-		return "EstadoVenta [id=" + id + ", estado=" + estado + ", usuario=" + usuario + "]";
+		return "HistorialPresupuesto [id=" + id + ", descripcion=" + descripcion + ", estado=" + estado + ", compra="
+				+ compra + ", venta=" + venta + "]";
 	}
 
 	///////////////////////////////////////////////////////
@@ -64,20 +62,28 @@ public class EstadoVenta implements Serializable {
 		this.id = id;
 	}
 
-	public String getEstado() {
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public byte getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(byte estado) {
 		this.estado = estado;
 	}
 
-	public Date getFechaRegistro() {
-		return this.fechaRegistro;
+	public Compra getCompra() {
+		return this.compra;
 	}
 
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 
 	public Venta getVenta() {
@@ -86,13 +92,5 @@ public class EstadoVenta implements Serializable {
 
 	public void setVenta(Venta venta) {
 		this.venta = venta;
-	}
-
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 }

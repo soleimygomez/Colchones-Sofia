@@ -4,48 +4,50 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * Implementation Telefono.
- * 
+ * Implementation Carrusel. 
  * @author DeveUp.
  * @phone 3118398189.
  * @email deveup@gmail.com.
  * @version 1.0.0.0.
  */
 @Entity
-@NamedQuery(name = "Telefono.findAll", query = "SELECT t FROM Telefono t")
-public class Telefono implements Serializable {
+@NamedQuery(name="Carrusel.findAll", query="SELECT c FROM Carrusel c")
+public class Carrusel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int telefono;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 
 	private String descripcion;
-	private boolean estado;
 
+	@Lob
+	private byte[] foto;
+	
 	///////////////////////////////////////////////////////
 	// Builder
 	///////////////////////////////////////////////////////
-	public Telefono() {
+	public Carrusel() {
 	}
-
+	
 	///////////////////////////////////////////////////////
 	// Method
 	///////////////////////////////////////////////////////
 	@Override
 	public String toString() {
-		return "Telefono [telefono=" + telefono + ", descripcion=" + descripcion + ", estado=" + estado + "]";
+		return "Carrusel [id=" + id + ", descripcion=" + descripcion + "]";
 	}
 
+
 	///////////////////////////////////////////////////////
-	// Getter and Setters
+	// Getter and Setters 
 	///////////////////////////////////////////////////////
-	public int getTelefono() {
-		return this.telefono;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getDescripcion() {
@@ -56,11 +58,11 @@ public class Telefono implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public boolean getEstado() {
-		return this.estado;
+	public byte[] getFoto() {
+		return this.foto;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 }

@@ -2,49 +2,64 @@ package com.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
+import java.math.BigInteger;
 
 /**
- * The persistent class for the detalle_compra database table.
+ * Implementation DetalleCompra.
  * 
+ * @author DeveUp.
+ * @phone 3118398189.
+ * @email deveup@gmail.com.
+ * @version 1.0.0.0.
  */
 @Entity
-@Table(name="detalle_compra")
-@NamedQuery(name="DetalleCompra.findAll", query="SELECT d FROM DetalleCompra d")
+@Table(name = "detalle_compra")
+@NamedQuery(name = "DetalleCompra.findAll", query = "SELECT d FROM DetalleCompra d")
 public class DetalleCompra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private int cantidad;
+	private String descripcion;
+	private BigInteger descuento;
+	private BigInteger precio;
 
-	private boolean estado;
-
-	@Column(name="precio_costo")
-	private double precioCosto;
-
-	private double subtotal;
-
-	//bi-directional many-to-one association to Compra
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@ManyToOne
-	@JoinColumn(name="id_compra")
+	@JoinColumn(name = "id_compra")
 	private Compra compra;
 
-	//bi-directional many-to-one association to DetalleProducto
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name = "id_producto")
 	private DetalleProducto detalleProducto;
 
-	//bi-directional many-to-one association to Proveedor
 	@ManyToOne
-	@JoinColumn(name="id_proveedor")
+	@JoinColumn(name = "id_proveedor")
 	private Proveedor proveedor;
 
+	///////////////////////////////////////////////////////
+	// Builder
+	///////////////////////////////////////////////////////
 	public DetalleCompra() {
 	}
 
+	///////////////////////////////////////////////////////
+	// Method
+	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "DetalleCompra [id=" + id + ", cantidad=" + cantidad + ", descuento=" + descuento + ", precio=" + precio
+				+ "]";
+	}
+
+	///////////////////////////////////////////////////////
+	// Getter and Setters
+	///////////////////////////////////////////////////////
 	public int getId() {
 		return this.id;
 	}
@@ -61,28 +76,28 @@ public class DetalleCompra implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public boolean getEstado() {
-		return this.estado;
+	public String getDescripcion() {
+		return this.descripcion;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
-	public double getPrecioCosto() {
-		return this.precioCosto;
+	public BigInteger getDescuento() {
+		return this.descuento;
 	}
 
-	public void setPrecioCosto(double precioCosto) {
-		this.precioCosto = precioCosto;
+	public void setDescuento(BigInteger descuento) {
+		this.descuento = descuento;
 	}
 
-	public double getSubtotal() {
-		return this.subtotal;
+	public BigInteger getPrecio() {
+		return this.precio;
 	}
 
-	public void setSubtotal(double subtotal) {
-		this.subtotal = subtotal;
+	public void setPrecio(BigInteger precio) {
+		this.precio = precio;
 	}
 
 	public Compra getCompra() {
@@ -108,5 +123,4 @@ public class DetalleCompra implements Serializable {
 	public void setProveedor(Proveedor proveedor) {
 		this.proveedor = proveedor;
 	}
-
 }

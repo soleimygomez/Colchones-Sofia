@@ -4,35 +4,63 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
-
 /**
- * The persistent class for the devolucion_garantia database table.
+ * Implementation DevolucionGarantia.
  * 
+ * @author DeveUp.
+ * @phone 3118398189.
+ * @email deveup@gmail.com.
+ * @version 1.0.0.0.
  */
 @Entity
-@Table(name="devolucion_garantia")
-@NamedQuery(name="DevolucionGarantia.findAll", query="SELECT d FROM DevolucionGarantia d")
+@Table(name = "devolucion_garantia")
+@NamedQuery(name = "DevolucionGarantia.findAll", query = "SELECT d FROM DevolucionGarantia d")
 public class DevolucionGarantia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private boolean estado;
+	private String estado;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="fecha_ingreso")
-	private Date fechaIngreso;
+	@Column(name = "fecha_actualizacion")
+	private Date fechaActualizacion;
 
-	//bi-directional many-to-one association to Venta
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_iregistro")
+	private Date fechaIregistro;
+
+	///////////////////////////////////////////////////////
+	// Map
+	///////////////////////////////////////////////////////
 	@ManyToOne
-	@JoinColumn(name="id_venta")
+	@JoinColumn(name = "usuario")
+	private Usuario usuario;
+
+	@ManyToOne
+	@JoinColumn(name = "id_venta")
 	private Venta venta;
 
+	///////////////////////////////////////////////////////
+	// Builder
+	///////////////////////////////////////////////////////
 	public DevolucionGarantia() {
 	}
 
+	///////////////////////////////////////////////////////
+	// Method
+	///////////////////////////////////////////////////////
+	@Override
+	public String toString() {
+		return "DevolucionGarantia [id=" + id + ", estado=" + estado + ", fechaActualizacion=" + fechaActualizacion
+				+ ", fechaIregistro=" + fechaIregistro + ", usuario=" + usuario + "]";
+	}
+
+	///////////////////////////////////////////////////////
+	// Getter and Setters
+	///////////////////////////////////////////////////////
 	public int getId() {
 		return this.id;
 	}
@@ -41,20 +69,36 @@ public class DevolucionGarantia implements Serializable {
 		this.id = id;
 	}
 
-	public boolean getEstado() {
+	public String getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(boolean estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
-	public Date getFechaIngreso() {
-		return this.fechaIngreso;
+	public Date getFechaActualizacion() {
+		return this.fechaActualizacion;
 	}
 
-	public void setFechaIngreso(Date fechaIngreso) {
-		this.fechaIngreso = fechaIngreso;
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public Date getFechaIregistro() {
+		return this.fechaIregistro;
+	}
+
+	public void setFechaIregistro(Date fechaIregistro) {
+		this.fechaIregistro = fechaIregistro;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Venta getVenta() {
@@ -64,5 +108,4 @@ public class DevolucionGarantia implements Serializable {
 	public void setVenta(Venta venta) {
 		this.venta = venta;
 	}
-
 }
