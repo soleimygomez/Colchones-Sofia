@@ -78,8 +78,7 @@
 						styleClass="p-d-flex p-jc-end p-ac-center">
 						<h:outputText value="Buscar:" styleClass="p-mt-1 p-mr-2" />
 						<p:inputText id="globalFilter"
-							onkeyup="PF('sofia-table-update').filter()"
-							placeholder="Digite la llave" />
+							onkeyup="PF('sofia-table-update').filter()" />
 					</p:outputPanel>
 					<p:outputPanel layout="block"
 						styleClass="p-d-flex p-jc-center p-ac-center p-p-3">
@@ -158,7 +157,7 @@
 							styleClass="#{v.estado ? 'sofia-statu-succes': 'sofia-statu-error'} sofia-statu">
 							<f:param name="documento-vendedor" value="#{v.documento}" />
 							<f:param name="tipo-documento-vendedor"
-								value="#{v.persona.tipoDocumentoBean.nombre}" />
+								value="#{v.persona.tipoDocumento.nombre}" />
 						</p:commandButton>
 					</h:panelGroup>
 				</p:column>
@@ -191,7 +190,7 @@
 										value="#{image.vendedor}" styleClass="sofia-image-user">
 										<f:param name="documento-vendedor" value="#{v.documento}" />
 										<f:param name="tipo-documento-vendedor"
-											value="#{v.persona.tipoDocumentoBean.nombre}" />
+											value="#{v.persona.tipoDocumento.nombre}" />
 									</p:graphicImage>
 								</h:outputLink>
 							</p:lightBox>
@@ -206,7 +205,7 @@
 								<p:outputLabel for="tipo-documento-vendedor"
 									value="Tipo Documento:" />
 								<p:inputText id="tipo-documento-vendedor"
-									value="#{v.persona.tipoDocumentoBean.nombre}" disabled="true" />
+									value="#{v.persona.tipoDocumento.nombre}" disabled="true" />
 							</div>
 						</h:panelGroup>
 
@@ -245,13 +244,13 @@
 									value="#{v.persona.direccion}" disabled="true" />
 							</div>
 
-							<!--      -->
-							<!-- SEXO -->
-							<!--      -->
+							<!--       -->
+							<!-- GENER -->
+							<!--       -->
 							<div class="p-field p-col p-md-2">
 								<p:outputLabel for="sexo-vendedor" value="Sexo:" />
 								<p:inputText id="sexo-vendedor"
-									value="#{v.persona.sexo == 'F' ? 'Femenino' : 'Masculino'}"
+									value="#{v.persona.genero == 'F' ? 'Femenino' : (v.persona.genero == 'M' ? 'Masculino' : 'Otro')}"
 									disabled="true" />
 							</div>
 
@@ -319,7 +318,7 @@
 							update="@(.sofia-container-main-update), @(.sofia-dialog-update)">
 							<f:param name="documento-vendedor" value="#{v.documento}" />
 							<f:param name="tipo-documento-vendedor"
-								value="#{v.persona.tipoDocumentoBean.nombre}" />
+								value="#{v.persona.tipoDocumento.nombre}" />
 						</p:commandButton>
 
 						<!-- REMOVE -->
@@ -331,7 +330,7 @@
 							oncomplete="PF('sofia-table-update').clearFilters()">
 							<f:param name="documento-vendedor" value="#{v.documento}" />
 							<f:param name="tipo-documento-vendedor"
-								value="#{v.persona.tipoDocumentoBean.nombre}" />
+								value="#{v.persona.tipoDocumento.nombre}" />
 							<p:confirm header="Eliminar Vendedor"
 								icon="pi pi-exclamation-triangle"
 								message="¿Quiere eliminar el vendedor con documento #{v.documento}?" />
@@ -397,7 +396,7 @@
 								value="Tipo Documento:" />
 							<p:selectOneMenu id="add-tipo-documento-vendedor"
 								disabled="#{vendedor.hidden}"
-								value="#{vendedor.vendedor.persona.tipoDocumentoBean.nombre}">
+								value="#{vendedor.vendedor.persona.tipoDocumento.nombre}">
 								<f:selectItems value="#{selection.documentos}" styleClass="info" />
 							</p:selectOneMenu>
 						</h:panelGroup>
@@ -506,11 +505,12 @@
 					<h:panelGroup layout="block"
 						styleClass="ui-fluid p-formgrid p-grid p-jc-center">
 						<div class="p-field p-col-12 p-md-4">
-							<p:outputLabel for="add-sexo-vendedor" value="Sexo:" />
+							<p:outputLabel for="add-sexo-vendedor" value="Genero:" />
 							<p:selectOneMenu id="add-sexo-vendedor"
-								value="#{vendedor.vendedor.persona.sexo}">
+								value="#{vendedor.vendedor.persona.genero}">
 								<f:selectItem itemLabel="Masculino" itemValue="M" />
 								<f:selectItem itemLabel="Femenino" itemValue="F" />
+								<f:selectItem itemLabel="Otro" itemValue="O" />
 							</p:selectOneMenu>
 						</div>
 					</h:panelGroup>

@@ -60,7 +60,7 @@
 								value="Tipo Documento:" />
 							<p:selectOneMenu id="tipo-documento-vendedor"
 								disabled="#{vendedor.search}"
-								value="#{vendedor.vendedor.persona.tipoDocumentoBean.nombre}">
+								value="#{vendedor.vendedor.persona.tipoDocumento.nombre}">
 								<f:selectItems value="#{selection.documentos}" styleClass="info" />
 							</p:selectOneMenu>
 						</h:panelGroup>
@@ -150,7 +150,7 @@
 							value="Tipo Documento:" />
 						<p:selectOneMenu id="tipo-documento-2-vendedor"
 							disabled="#{vendedor.search}"
-							value="#{vendedor.vendedor.persona.tipoDocumentoBean.nombre}">
+							value="#{vendedor.vendedor.persona.tipoDocumento.nombre}">
 							<f:selectItems value="#{selection.documentos}" styleClass="info" />
 						</p:selectOneMenu>
 					</h:panelGroup>
@@ -173,9 +173,8 @@
 				<!--        -->
 				<h:panelGroup layout="block"
 					styleClass="p-d-flex p-jc-center pac-center p-m-5">
-					<p:fileUpload listener="#{image.uploadImage}"
-						mode="advanced" dragDropSupport="false"
-						update="@(.sofia-container-main-update)"
+					<p:fileUpload listener="#{image.uploadImage}" mode="advanced"
+						dragDropSupport="false" update="@(.sofia-container-main-update)"
 						sizeLimit="100000" fileLimit="1"
 						allowTypes="/(\.|\/)(jpe?g|png)$/" />
 				</h:panelGroup>
@@ -260,11 +259,12 @@
 				<h:panelGroup layout="block" rendered="#{vendedor.search == false}"
 					styleClass="ui-fluid p-formgrid p-grid p-jc-center">
 					<div class="p-field p-col-12 p-md-4">
-						<p:outputLabel for="sexo-vendedor" value="Sexo:" />
+						<p:outputLabel for="sexo-vendedor" value="Genero:" />
 						<p:selectOneMenu id="sexo-vendedor"
-							value="#{vendedor.vendedor.persona.sexo}">
+							value="#{vendedor.vendedor.persona.genero}">
 							<f:selectItem itemLabel="Masculino" itemValue="M" />
 							<f:selectItem itemLabel="Femenino" itemValue="F" />
+							<f:selectItem itemLabel="Otro" itemValue="O" />
 						</p:selectOneMenu>
 					</div>
 				</h:panelGroup>
@@ -280,12 +280,7 @@
 				</h:panelGroup>
 
 			</h:panelGroup>
-
-
-
 		</p:fieldset>
 	</ui:define>
-
-
 </ui:composition>
 </html>

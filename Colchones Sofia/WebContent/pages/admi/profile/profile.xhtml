@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--          -->
+<!-- TEMPLATE -->
+<!--          -->
+<ui:composition template="../../../template/template-admi.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!--       -->
+	<!-- TITLE -->
+	<!--       -->
+	<ui:define name="title">
+		| Perfil
+	</ui:define>
+
+	<!--         -->
+	<!-- SECTION -->
+	<!--         -->
+	<ui:define name="component">
+		<h:panelGroup layout="block"
+			styleClass="sofia-container-section-generic__center">
+
+			<!--      -->
+			<!-- MAIN -->
+			<!--      -->
+			<h:panelGroup layout="block">
+
+				<!--     -->
+				<!-- TOP -->
+				<!--     -->
+				<h:panelGroup layout="block">
+
+					<!--       -->
+					<!-- IMAGE -->
+					<!--       -->
+					<h:panelGroup layout="block">
+						<h:graphicImage rendered="#{sesion.logeado.foto == null}"
+							library="img" name="user.png" />
+						<p:graphicImage rendered="#{sesion.logeado.foto != null}" value="#{image.usuario}">
+							<f:param name="documento-usuario" value="#{sesion.logeado.documento}" />
+						</p:graphicImage>
+					</h:panelGroup>
+
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+
+	</ui:define>
+
+</ui:composition>
