@@ -8,7 +8,7 @@
  ***************************************************/
 .sofia-page-structure{
 	display: grid;
-	grid-template-columns: auto 1fr 1fr;
+	grid-template-columns: auto 1fr;
 	grid-template-rows: auto 1fr 1fr;
 	grid-template-areas: "Top 		Top 		Top"
 	                     "Left   	Center     	Center"
@@ -17,17 +17,42 @@
 	
 	&-top{
 		grid-area: Top;
-		//border: 1px solid red;
 	}
 	
 	&-left{
 		grid-area: Left;
-		//border: 1px solid red;
 	}
 	
 	&-center{
 		grid-area: Center;
 		padding-bottom: 4em;
-		//border: 1px solid green;
+	}
+}
+
+/***************************************************
+ * PROFILE
+ ***************************************************/
+.sofia-page-profile-structure{
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-template-rows: 100%;
+	grid-template-areas: "Right   Left"
+	                     "Right   Left"
+		         	     "Right   Left";
+	gap: 1.25rem;
+	
+	&-left{
+		grid-area: Left;
+	}
+	
+	&-right{
+		grid-area: Right; 
+	}
+	
+	@media screen and (max-width: 1000px) {
+		grid-template-columns: 100% 1fr;
+		grid-template-rows: auto 1fr;
+		grid-template-areas: "Left   Left"
+	                         "Right   Right";
 	}
 }

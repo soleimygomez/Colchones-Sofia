@@ -43,3 +43,13 @@
 		font-family: $--project-font-family;
 	}
 }
+
+/***************************************************
+ * TEXT TITLE 
+ ***************************************************/
+.sofia-text-title{
+	@include text(nth(getMap($project, ("color", "body")), 2), uppercase, $--project-font-family-2);
+	font-size: 1.875em;
+	display: block;
+	font-weight: bolder;
+}

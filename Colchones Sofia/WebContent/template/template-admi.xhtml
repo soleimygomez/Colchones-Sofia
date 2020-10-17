@@ -141,9 +141,8 @@
 					</p:submenu>
 
 					<p:submenu label="Perfil">
-						<p:menuitem value="Perfil" icon="fa fa-fw fa-id-card-alt"
-							title="Ver perfil"
-							action="/pages/admi/profile/profile?faces-redirect=true" />
+						<p:menuitem value="Perfil" icon="fa fa-fw fa-id-card-alt" actionListener="#{usuario.obtenerUsuario()}" 
+							title="Ver perfil" action="/pages/admi/profile/profile?faces-redirect=true" />
 					</p:submenu>
 
 					<p:submenu label="Empresa">

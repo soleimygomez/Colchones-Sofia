@@ -141,6 +141,34 @@ $--element-color: getMap($--element, ("color"));
 	}
 }
 
+.sofia-button-primary{
+	&.ui-state-default{
+		width: auto !important;
+		margin: auto !important;
+		border-color: transparent !important;
+		position: relative !important;
+	}
+	$--element-color: getMap($project, ("color", "primary"));
+	&.ui-state-default, &{
+		background: nth($--element-color, 1) !important;
+		color: nth($--element-color, 2) !important;
+	}
+}
+
+.sofia-button-orange{
+	&.ui-state-default{
+		width: auto !important;
+		margin: auto !important;
+		border-color: transparent !important;
+		position: relative !important;
+	}
+	$--element-color: getMap($color, ("orange", "base"));
+	&.ui-state-default, &{
+		background: nth($--element-color, 1) !important;
+		color: nth($--element-color, 2) !important;
+	}
+}
+
 /***************************************************
  * BUTTON ICON
  ***************************************************/
@@ -160,5 +188,57 @@ $--element-color: getMap($--element, ("color"));
 		left: 50% !important;
 		margin: 0em !important;
 		transform: translate(-50%, -50%) !important;
+	}
+}
+
+/***************************************************
+ * ICON
+ ***************************************************/
+.sofia-icon-succes{
+	$--element-color: getMap($project, ("color", "succes"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-error{
+	$--element-color: getMap($project, ("color", "error"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-fatal{
+	$--element-color: getMap($project, ("color", "fatal"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-warn{
+	$--element-color: getMap($project, ("color", "info"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-info{
+	$--element-color: getMap($project, ("color", "other"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-primary{
+	$--element-color: getMap($project, ("color", "primary"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
+	}
+}
+
+.sofia-icon-orange{
+	$--element-color: getMap($color, ("orange", "base"));
+	.ui-icon{
+		color: nth($--element-color, 1) !important;
 	}
 }
