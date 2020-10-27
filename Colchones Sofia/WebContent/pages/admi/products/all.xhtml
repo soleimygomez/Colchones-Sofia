@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="../../../template/advanced/template-advaced-admi.xhtml">
+
+	<ui:define name="title-advaced">
+			| Producto | Historial
+	</ui:define>
+
+	<ui:define name="component-statu-advaced">
+		<p:menuitem value="Home" url="../index.xhtml" />
+		<p:menuitem value="Producto" url="index.xhtml" disabled="none" />
+		<p:menuitem value="Historial" url="all.xhtml" disabled="none" />
+	</ui:define>
+
+	<ui:define name="component-title-img-advaced">
+		<h:graphicImage library="img" name="all/provider.jpg"
+			styleClass="sofia-image-80 sofia-image-dark" />
+	</ui:define>
+	<ui:define name="component-title-h1-advaced">Producto</ui:define>
+	<ui:define name="component-title-h2-advaced">Historial</ui:define>
+
+	<ui:define name="component-other-advaced">
+		<p:fieldset legend="Historial" toggleable="true" toggleSpeed="500">
+			<!-- TITLE -->
+			<h1 class="sofia-title p-my-4 p-mb-6">Historial Producto</h1>
+
+			<!--         -->
+			<!-- ACTIONS -->
+			<!--         -->
+			<p:separator styleClass="p-mt-4" />
+			<h:panelGroup layout="block"
+				styleClass="d-p-flex p-jc-star p-ac-center p-m-4">
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<p:commandButton icon="pi pi-plus" value="Agregar"
+					styleClass="sofia-button-succes" title="Agregar"
+					action="#{producto.statuRegistrar()}"
+					update="sofia-container-main-update, :sofia-dialog-update" />
+
+				<!--         -->
+				<!-- SPINNER -->
+				<!--         -->
+				<p:commandButton icon="fa fa-fw fa-spinner" value="Actualizar"
+					onclick="PF('sofia-table-update').clearFilters()"
+					styleClass="sofia-button-warn p-ml-3"
+					update="sofia-container-main-update, :sofia-dialog-update"
+					title="Actualizar" />
+			</h:panelGroup>
+			<p:separator styleClass="p-mb-4" />
+
+			<!--           -->
+			<!-- DATA VIEW -->
+			<!--           -->
+			<p:dataTable var="p" value="#{table.producto}"
+				widgetVar="sofia-table-update" id="sofia-table-update"
+				emptyMessage="No se encontro ningun producto."
+				filteredValue="#{table.filter_producto}"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+								   {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="20" rowIndexVar="index"
+				rowsPerPageTemplate="5,10,15,20,50,100" reflow="true"
+				scrollable="true" styleClass="p-mt-4">
+
+				<!-- HEADER -->
+				<f:facet name="header">
+					<p:outputPanel layout="block"
+						styleClass="p-d-flex p-jc-end p-ac-center">
+						<h:outputText value="Buscar:" styleClass="p-mt-1 p-mr-2" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('sofia-table-update').filter()"
+							placeholder="Digite la llave" />
+					</p:outputPanel>
+					<p:outputPanel layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center p-p-3">
+						<h2>Productos</h2>
+						<h4 class="p-as-end">(#{table.producto.size()} resultados)</h4>
+					</p:outputPanel>
+				</f:facet>
+
+				<!--        -->
+				<!-- COLUMN -->
+				<!--        -->
+				<p:column style="width:50px">
+					<p:rowToggler />
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputLabel value="#{index + 1}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- ID -->
+				<p:column filterBy="#{p.idProducto}" sortBy="#{p.idProducto}"
+					footerText="ID" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.idProducto}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- NAME -->
+				<p:column filterBy="#{p.nombre}" footerText="Nombre"
+					sortBy="#{p.nombre}">
+					<f:facet name="header">
+						<h:outputText value="Nombre" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.nombre}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- STOCK -->
+				<p:column filterBy="${p.stock}" footerText="Stock">
+					<f:facet name="header">
+						<h:outputText value="stock" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.stock}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- WARRANTY -->
+				<p:column filterBy="${p.garantia}" footerText="Garantia">
+					<f:facet name="header">
+						<h:outputText value="garantia" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.garantia}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- ESTATU -->
+				<p:column filterBy="#{p.estado}" footerText="Estado"
+					headerText="Estado" filterMatchMode="equals">
+					<f:facet name="filter">
+						<p:selectOneButton onchange="PF('sofia-table-update').filter()"
+							styleClass="custom-filter">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="D" itemValue="" />
+							<f:selectItem itemLabel="A" itemValue="true" />
+							<f:selectItem itemLabel="B" itemValue="false" />
+						</p:selectOneButton>
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<p:commandButton value="#{p.estado ? 'Activo': 'Bloqueado'}"
+							title="Cambiar estado" action="#{producto.estado()}"
+							update="@(.sofia-container-main-update)"
+							onclick="PF('sofia-table-update').clearFilters()"
+							styleClass="#{p.estado ? 'sofia-statu-succes': 'sofia-statu-error'} sofia-statu">
+							<f:param name="id-producto" value="#{p.idProducto}" />
+						</p:commandButton>
+					</h:panelGroup>
+				</p:column>
+
+				<!--        -->
+				<!-- EXPANT -->
+				<!--        -->
+				<p:rowExpansion>
+					<h:panelGroup layout="block" styleClass="p-m-4">
+						<h2>Información:</h2>
+
+						<!--       -->
+						<!-- IMAGE -->
+						<!--       -->
+						<h:panelGroup layout="block"
+							styleClass="p-d-flex p-jc-center p-ac-center">
+							<p:graphicImage rendered="#{p.foto == null}" library="img"
+								name="user.png" styleClass="sofia-image-user" />
+							<!--          -->
+							<!-- LIGHTBOX -->
+							<!--          -->
+							<p:lightBox id="lightBox-#{v.documento}"
+								rendered="#{p.foto != null}">
+								<h:outputLink value="https://picsum.photos/500/700"
+									rendered="#{p.foto != null}" title="#{p.nombre}">
+									<p:graphicImage rendered="#{p.foto != null}"
+										value="#{image.detalleProducto}" styleClass="sofia-image-user">
+										<f:param name="id-producto" value="#{p.idProducto}" />
+									</p:graphicImage>
+								</h:outputLink>
+							</p:lightBox>
+						</h:panelGroup>
+
+						<h:panelGroup layout="block"
+							styleClass="ui-fluid p-formgrid p-grid p-m-4 p-jc-between p-ac-center">
+
+							<!--            -->
+							<!-- Stock -->
+							<!--            -->
+							<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-3">
+								<p:outputLabel for="stock" value="Stock:" />
+								<p:inputText id="stock" value="#{p.stock}" disabled="true" />
+							</h:panelGroup>
+
+
+						</h:panelGroup>
+
+						<!--      -->
+						<!-- DATE -->
+						<!--      -->
+						<h:panelGroup layout="block"
+							styleClass="ui-fluid p-formgrid p-grid p-m-4 p-jc-between p-ac-center">
+
+							<!--          -->
+							<!-- REGISTER -->
+							<!--          -->
+							<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-3">
+								<p:outputLabel for="fecha-registro" value="Fecha Registro:" />
+								<p:inputText id="fecha-registro" value="#{p.fechaRegistro}"
+									disabled="true" />
+							</h:panelGroup>
+
+							<!--      -->
+							<!-- USER -->
+							<!--      -->
+							<div class="p-field p-col p-md-3">
+								<p:outputLabel for="fecha-actualizacion"
+									value="Fecha Actualización:" />
+								<p:inputText id="fecha-actualizacion"
+									value="#{p.fechaActualizacion}" disabled="true" />
+							</div>
+						
+						</h:panelGroup>
+						
+						
+						<p:fieldset legend="Productos" toggleable="true" toggleSpeed="500"
+							rendered="#{p.detalleProductos.size() > 0}">
+							<!--       -->
+							<!-- TABLE -->
+							<!--       -->
+							<p:dataTable var="pp" value="#{p.detalleProductos}"
+								emptyMessage="No se encontro ningun producto"
+								paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+													{CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+								paginator="true" rows="20" scrollable="true"
+								rowsPerPageTemplate="5,10,15,20,50,100" reflow="true">
+
+								<!--       -->
+								<!-- TITLE -->
+								<!--       -->
+								<f:facet name="header">
+									<h2> Detalle del Producto</h2>
+								</f:facet>
+
+								<!-- ID -->
+								<p:column footerText="ID" sortBy="#{pp.id}">
+									<f:facet name="header">
+										<h:outputText value="ID" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.id}" />
+									</h:panelGroup>
+								</p:column>
+
+								<!-- NAME -->
+								<p:column footerText="Color">
+									<f:facet name="header">
+										<h:outputText value="Color" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.color}" />
+									</h:panelGroup>
+								</p:column>
+
+								<!-- CATEGORY -->
+								<p:column footerText="Dimensiones"
+									sortBy="#{pp.dimension}">
+									<f:facet name="header">
+										<h:outputText value="Dimensiones" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.dimension}" />
+									</h:panelGroup>
+								</p:column>
+
+								<p:column footerText="Precio Costo"
+									sortBy="#{pp.precioCosto}">
+									<f:facet name="header">
+										<h:outputText value="Precio Costo" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.precioCosto}" />
+									</h:panelGroup>
+								</p:column>
+								
+								<p:column footerText="Precio Venta"
+									sortBy="#{pp.precioVenta}">
+									<f:facet name="header">
+										<h:outputText value="Precio Venta" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.precioVenta}" />
+									</h:panelGroup>
+								</p:column>
+								
+								<p:column footerText="Descuento"
+									sortBy="#{pp.descuento}">
+									<f:facet name="header">
+										<h:outputText value="Descuento" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.descuento}" />
+									</h:panelGroup>
+								</p:column>
+								
+								<p:column footerText="Stock"
+									sortBy="#{pp.stock}">
+									<f:facet name="header">
+										<h:outputText value="Stock" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.stock}" />
+									</h:panelGroup>
+								</p:column>
+								
+								<p:column footerText="Descripcion"
+									sortBy="#{pp.descripcion}">
+									<f:facet name="header">
+										<h:outputText value="Descripcion" />
+									</f:facet>
+									<h:panelGroup layout="block"
+										styleClass="p-d-flex p-jc-center p-ac-center">
+										<h:outputText value="#{pp.descripcion}" />
+									</h:panelGroup>
+								</p:column>
+							</p:dataTable>
+						</p:fieldset>
+						
+						
+						<!--         -->
+						<!-- ACTIONS -->
+						<!--         -->
+						<p:separator styleClass="p-mt-4 p-mb-4" />
+						<h:panelGroup layout="block"
+							styleClass="p-d-flex p-jc-center p-ac-center">
+
+							<!-- EDIT -->
+							<p:commandButton icon="fa fa-fw fa-user-edit"
+								title="Editar Producto"
+								styleClass="sofia-button-info sofia-button-icon"
+								action="#{producto.statuActualizar()}"
+								update="@(.sofia-container-main-update), @(.sofia-dialog-update)">
+								<f:param name="id-producto" value="#{p.idProducto}" />
+							</p:commandButton>
+
+							<!-- REMOVE -->
+							<p:commandButton icon="fa fa-fw fa-user-times"
+								title="Eliminar Producto"
+								styleClass="sofia-button-error sofia-button-icon"
+								action="#{producto.eliminar()}"
+								update="@(.sofia-container-main-update), @(.sofia-dialog-update)"
+								oncomplete="PF('sofia-table-update').clearFilters()">
+								<f:param name="id-producto" value="#{p.idProducto}" />
+								<p:confirm header="Eliminar Producto"
+									icon="pi pi-exclamation-triangle"
+									message="¿Quiere eliminar el producto con ID.#{p.idProducto}?" />
+							</p:commandButton>
+
+							
+						</h:panelGroup>
+					</h:panelGroup>
+				</p:rowExpansion>
+			</p:dataTable>
+			
+			
+			<!--         -->
+			<!-- ACTIONS -->
+			<!--         -->
+			<p:separator styleClass="p-mt-4" />
+			<h:panelGroup layout="block"
+				styleClass="d-p-flex p-jc-star p-ac-center p-m-4">
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<p:commandButton icon="pi pi-plus" value="Agregar"
+					styleClass="sofia-button-succes" title="Agregar"
+					action="#{producto.statuRegistrar()}"
+					update="sofia-container-main-update, :sofia-dialog-update" />
+
+				<!--         -->
+				<!-- SPINNER -->
+				<!--         -->
+				<p:commandButton icon="fa fa-fw fa-spinner" value="Actualizar"
+					onclick="PF('sofia-table-update').clearFilters()"
+					styleClass="sofia-button-warn p-ml-3"
+					update="sofia-container-main-update, :sofia-dialog-update"
+					title="Actualizar" />
+			</h:panelGroup>
+			<p:separator styleClass="p-mb-4" />
+		</p:fieldset>
+	</ui:define>
+
+	<!--        -->
+	<!-- DIALOG -->
+	<!--        -->
+	<ui:define name="component-dialog-advaced">
+
+		<!--                    -->
+		<!-- DIALOG ADD PRODUCT -->
+		<!--                    -->
+		<p:dialog header="Agregar Producto" width="50%"
+			widgetVar="sofia-dialog-product-update"
+			id="sofia-dialog-product-update" resizable="false"
+			styleClass="sofia-dialog-product-update" modal="true"
+			showEffect="explode">
+			<h:form>
+				<p:dataTable id="checkboxDT" var="lp" value="#{proveedor.productos}"
+					paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+								{CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+					paginator="true" rows="20" rowIndexVar="index"
+					rowsPerPageTemplate="5,10,15,20,50,100"
+					selection="#{proveedor.seleccionadas}" rowKey="#{lp.idProducto}"
+					sortBy="#{lp.categoria.nombre}" expandableRowGroups="true">
+
+					<f:facet name="header">
+						<h2>Productos </h2>
+					</f:facet>
+
+					<!--          -->
+					<!-- CATEGORY -->
+					<!--          -->
+					<p:headerRow>
+						<p:column colspan="3">
+							<h:outputText value="#{lp.categoria.nombre}" />
+						</p:column>
+					</p:headerRow>
+
+					<!-- ID -->
+					<p:column selectionMode="multiple"
+						style="width:30px; text-align:center" />
+
+					<p:column headerText="Id">
+						<h:outputText value="#{lp.idProducto}" />
+					</p:column>
+
+					<!-- NAME -->
+					<p:column headerText="Nombre">
+						<h:outputText value="#{lp.nombre}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton title="Agregar Producto"
+							action="#{producto.registrarP()}"
+							icon="fa fa-fw fa-plus-square"
+							oncomplete="PF('sofia-table-update').clearFilters()"
+							update="@(.sofia-container-main-update), @(.sofia-dialog-product-update)"
+							styleClass="sofia-button-icon sofia-button-succes" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+
+		<!--                            -->
+		<!-- Actualizar -->
+		<!--                            -->
+		<p:dialog header="#{producto.estado} Producto"
+			widgetVar="sofia-dialog-update" id="sofia-dialog-update"
+			resizable="false" showEffect="explode"
+			styleClass="sofia-dialog-update" modal="true">
+			<h:form>
+				<h:panelGroup layout="block"
+					styleClass="ui-fluid p-formgrid p-d-flex p-jc-end">
+
+					<!--     -->
+					<!-- ID  -->
+					<!--     -->
+					<h:panelGroup layout="block" styleClass="p-field p-col p-md-4">
+						<p:outputLabel for="id-producto" value="ID:" />
+						<p:inputText id="id-producto" disabled="#{producto.hidden}"
+							value="#{producto.id}" />
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<!--        -->
+				<!-- UPLOAD -->
+				<!--        -->
+				<h:panelGroup layout="block"
+					styleClass="p-d-flex p-jc-center pac-center p-m-5">
+					<p:fileUpload listener="#{image.uploadImage}" mode="advanced"
+						dragDropSupport="false" update="@(.sofia-container-main-update)"
+						sizeLimit="100000" fileLimit="1"
+						allowTypes="/(\.|\/)(jpe?g|png)$/" />
+				</h:panelGroup>
+
+				<h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid">
+
+					<!--       -->
+					<!-- NAME  -->
+					<!--       -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="nombre-producto" value="Nombre:" />
+						<p:inputText id="nombre-producto"
+							value="#{producto.producto.nombre}" />
+					</h:panelGroup>
+					
+					
+					<!--       -->
+					<!-- GARANTIA -->
+					<!--       -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="garantia-producto" value="Garantia:" />
+						<p:inputText id="garantia-producto"
+							value="#{producto.producto.garantia}" />
+					</h:panelGroup>
+					
+					
+					<!--       -->
+					<!-- GARANTIA -->
+					<!--       -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="garantia-producto" value="Descripcion:" />
+						<p:inputText id="descripcion-producto"
+							value="#{producto.producto.descripcion}" />
+					</h:panelGroup>
+					
+					
+					<!--        -->
+					<!-- PHONE  -->
+					<!--        -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="stock-producto" value="Stock:" />
+						<p:inputMask id="stock-producto"
+							value="#{producto.producto.stock}"/>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				
+
+				<!--           -->
+				<!-- CATEGORY -->
+				<!--           -->
+				<h:panelGroup layout="block" rendered="#{producto.hidden == false}"
+					styleClass="ui-fluid p-formgrid p-grid p-justify-center">
+					
+					<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-4">
+							<h:outputLabel for="productos-categoria" value="Categorias: " />
+							<p:selectOneMenu id="productos-categoria" filter="true"
+								value="#{producto.id}">
+								<f:selectItems value="#{selection.categoria}" />
+							</p:selectOneMenu>
+					</h:panelGroup>
+					
+				</h:panelGroup>
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<h:panelGroup layout="block"
+					styleClass="p-d-flex p-jc-center p-mb-lg-6 p-mt-lg-6">
+					<p:commandButton value="#{producto.estado}"
+						styleClass="sofia-button sofia-button-info p-m-0"
+						action="#{producto.statu()}"
+						update="@(.sofia-container-main-update), :sofia-dialog-update"
+						oncomplete="PF('sofia-table-update').clearFilters()" />
+				</h:panelGroup>
+			</h:form>
+			</p:dialog>
+		
+			
+			
+			
+			
+			
+		
+			
+			
+			
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--          -->
+<!-- TEMPLATE -->
+<!--          -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="../../../template/advanced/template-advaced-admi.xhtml">
+	<!--       -->
+	<!-- TITLE -->
+	<!--       -->
+	<ui:define name="title-advaced">
+			| Producto | Registrar
+	</ui:define>
+
+	<!--       -->
+	<!-- STATU -->
+	<!--       -->
+	<ui:define name="component-statu-advaced">
+		<p:menuitem value="Home" url="../index.xhtml" />
+		<p:menuitem value="Producto" url="index.xhtml" disabled="none" />
+		<p:menuitem value="Registrar" url="register.xhtml" disabled="none" />
+	</ui:define>
+
+	<!--       -->
+	<!-- TITLE -->
+	<!--       -->
+	<ui:define name="component-title-img-advaced">
+		<h:graphicImage library="img" name="all/buy.jpeg"
+			styleClass="sofia-image-80 sofia-image-dark" />
+	</ui:define>
+	<ui:define name="component-title-h1-advaced">Producto</ui:define>
+	<ui:define name="component-title-h2-advaced">Registrar</ui:define>
+
+
+	<!--         -->
+	<!-- SECTION -->
+	<!--         -->
+	<ui:define name="component-other-advaced">
+		<p:fieldset legend="Registrar" toggleable="true" toggleSpeed="500">
+
+			<!-- TITLE -->
+			<h1 class="sofia-title p-my-4 p-mb-6">Registrar Producto</h1>
+
+			<!--      -->
+			<!-- FORM -->
+			<!--      -->
+			<h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid">
+
+				<!--                 -->
+				<!-- PURCHASE DETAIL -->
+				<!--                 -->
+				<p:fieldset legend="Detalle Producto" toggleable="true"
+					toggleSpeed="500" styleClass="p-field p-col-12">
+
+
+					
+
+						<!--    -->
+						<!-- ID -->
+						<!--    -->
+						<h:panelGroup layout="block"
+							styleClass="ui-fluid p-formgrid p-d-flex p-jc-end">
+							<h:panelGroup layout="block" styleClass="p-field p-col p-md-3">
+								<p:outputLabel for="id-producto" value="ID Producto:" />
+								<p:inputText id="id-producto"
+									value="#{producto.producto.idProducto}" />
+							</h:panelGroup>
+						</h:panelGroup>
+
+						<!--       -->
+						<!-- IMAGE -->
+						<!--        -->
+						<h:panelGroup layout="block"
+							styleClass="p-d-flex p-jc-center p-mb-lg-6">
+							<p:fileUpload listener="#{image.uploadImage}"
+								mode="advanced" dragDropSupport="false"
+								update="@(.sofia-container-main-update)"
+								sizeLimit="100000" fileLimit="1"
+								allowTypes="/(\.|\/)(jpe?g|png)$/" />
+						</h:panelGroup>
+					<!--      -->
+					<!-- DATA -->
+					<!--      -->
+					<div class="ui-fluid p-formgrid p-grid">
+						<div class="p-field p-col">
+							<p:outputLabel for="nombre-producto" value="Nombre del Producto:" />
+							<p:inputText id="nombre-producto"
+								value="#{producto.producto.nombre}" />
+						</div>
+
+						<div class="ui-fluid p-formgrid p-grid p-justify-center">
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="stock-producto" value="Stock:" />
+								<p:inputMask id="stock-producto"
+									value="#{producto.producto.stock}" mask="" />
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="descripcion-producto" value="Descripcion:" />
+								<p:inputText id="descripcion-producto"
+									value="#{producto.producto.descripcion}" />
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="garantia-producto" value="Garantia:" />
+								<p:inputText id="garantia-producto"
+									value="#{producto.producto.garantia}" />
+							</div>
+						</div>
+					</div>
+					<h:panelGroup layout="block"
+						styleClass="ui-fluid p-formgrid p-grid p-justify-center">
+						<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-4">
+							<h:outputLabel for="productos-categoria" value="Categorias: " />
+							<p:selectOneMenu id="productos-categoria" filter="true"
+								value="#{producto.id}">
+								<f:selectItems value="#{selection.categoria}" />
+							</p:selectOneMenu>
+						</h:panelGroup>
+					</h:panelGroup>
+
+
+
+
+					</p:fieldset>
+				
+			</h:panelGroup>
+			
+
+			<p:panelGrid columns="2">
+				<h:outputText value="Interleaved 2 of 5" />
+				<p:barcode value="#{producto.producto.codigoBarra}" type="int2of5" />
+			</p:panelGrid>
+
+			<!--        -->
+			<!-- BUTTON -->
+			<!--        -->
+			<h:panelGroup layout="block"
+				styleClass="p-d-flex p-jc-center p-mb-lg-6 p-mt-lg-6">
+				<p:commandButton value="Registrar" styleClass="sofia-button p-m-0"
+					update="@(.sofia-container-main-update)"
+					action="#{producto.registrarP()}" />
+			</h:panelGroup>
+		</p:fieldset>
+		
+
+
+		
+	</ui:define>
+
+	
+
+
+
+</ui:composition>

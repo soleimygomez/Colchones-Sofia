@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="../../../template/advanced/template-advaced-admi.xhtml">
+
+	<ui:define name="title-advaced">
+			| Garantia | Historial
+	</ui:define>
+
+	<ui:define name="component-statu-advaced">
+		<p:menuitem value="Home" url="../index.xhtml" />
+		<p:menuitem value="Garantia" url="index.xhtml" disabled="none" />
+		<p:menuitem value="Historial" url="all.xhtml" disabled="none" />
+	</ui:define>
+
+	<ui:define name="component-title-img-advaced">
+		<h:graphicImage library="img" name="all/provider.jpg"
+			styleClass="sofia-image-80 sofia-image-dark" />
+	</ui:define>
+	<ui:define name="component-title-h1-advaced">Garantia</ui:define>
+	<ui:define name="component-title-h2-advaced">Historial</ui:define>
+
+	<ui:define name="component-other-advaced">
+		<p:fieldset legend="Historial" toggleable="true" toggleSpeed="500">
+			<!-- TITLE -->
+			<h1 class="sofia-title p-my-4 p-mb-6">Historial Garantia</h1>
+
+			<!--         -->
+			<!-- ACTIONS -->
+			<!--         -->
+			<p:separator styleClass="p-mt-4" />
+			<h:panelGroup layout="block"
+				styleClass="d-p-flex p-jc-star p-ac-center p-m-4">
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<p:commandButton icon="pi pi-plus" value="Agregar"
+					styleClass="sofia-button-succes" title="Agregar"
+					action="#{garantia.statuRegistrar()}"
+					update="sofia-container-main-update, :sofia-dialog-update" />
+
+				<!--         -->
+				<!-- SPINNER -->
+				<!--         -->
+				<p:commandButton icon="fa fa-fw fa-spinner" value="Actualizar"
+					onclick="PF('sofia-table-update').clearFilters()"
+					styleClass="sofia-button-warn p-ml-3"
+					update="sofia-container-main-update, :sofia-dialog-update"
+					title="Actualizar" />
+			</h:panelGroup>
+			<p:separator styleClass="p-mb-4" />
+
+			<!--           -->
+			<!-- DATA VIEW -->
+			<!--           -->
+			<p:dataTable var="p" value="#{table.garantia}"
+				widgetVar="sofia-table-update" id="sofia-table-update"
+				emptyMessage="No se encontro ninguna garantia."
+				filteredValue="#{table.filter_garantia}"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+								   {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				paginator="true" rows="20" rowIndexVar="index"
+				rowsPerPageTemplate="5,10,15,20,50,100" reflow="true"
+				scrollable="true" styleClass="p-mt-4">
+
+				<!-- HEADER -->
+				<f:facet name="header">
+					<p:outputPanel layout="block"
+						styleClass="p-d-flex p-jc-end p-ac-center">
+						<h:outputText value="Buscar:" styleClass="p-mt-1 p-mr-2" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('sofia-table-update').filter()"
+							placeholder="Digite la llave" />
+					</p:outputPanel>
+					<p:outputPanel layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center p-p-3">
+						<h2>Garantia</h2>
+						<h4 class="p-as-end">(#{table.garantia.size()} resultados)</h4>
+					</p:outputPanel>
+				</f:facet>
+
+				<!--        -->
+				<!-- COLUMN -->
+				<!--        -->
+				<p:column style="width:50px">
+					<p:rowToggler />
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputLabel value="#{index + 1}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- ID -->
+				<p:column filterBy="#{p.id}" sortBy="#{p.id}"
+					footerText="ID" filterMatchMode="contains">
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.id}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- NAME -->
+				<p:column filterBy="#{p.venta}" footerText="Venta N°"
+					sortBy="#{p.venta}">
+					<f:facet name="header">
+						<h:outputText value="Venta" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.venta}" />
+					</h:panelGroup>
+				</p:column>
+
+				<!-- STOCK -->
+				<p:column filterBy="${p.estado}" footerText="Estado">
+					<f:facet name="header">
+						<h:outputText value="estado" />
+					</f:facet>
+					<h:panelGroup layout="block"
+						styleClass="p-d-flex p-jc-center p-ac-center">
+						<h:outputText value="#{p.estado}" />
+					</h:panelGroup>
+				</p:column>
+
+			
+
+				<!--        -->
+				<!-- EXPANT -->
+				<!--        -->
+				<p:rowExpansion>
+					<h:panelGroup layout="block" styleClass="p-m-4">
+						<h2>Información:</h2>
+
+						
+
+						<h:panelGroup layout="block"
+							styleClass="ui-fluid p-formgrid p-grid p-m-4 p-jc-between p-ac-center">
+
+							<!--            -->
+							<!-- Stock -->
+							<!--            -->
+							<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-3">
+								<p:outputLabel for="estado" value="Descripcion" />
+								<p:inputText id="estado" value="#{p.estado}" disabled="true" />
+							</h:panelGroup>
+
+
+							<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-3">
+								<p:outputLabel for="idVenta" value="Venta" />
+								<p:inputText id="venta" value="#{p.venta}" disabled="true" />
+							</h:panelGroup>
+							
+						</h:panelGroup>
+
+						<!--      -->
+						<!-- DATE -->
+						<!--      -->
+						<h:panelGroup layout="block"
+							styleClass="ui-fluid p-formgrid p-grid p-m-4 p-jc-between p-ac-center">
+
+							<!--          -->
+							<!-- REGISTER -->
+							<!--          -->
+							<h:panelGroup layout="block" styleClass="p-field p-col-12 p-md-3">
+								<p:outputLabel for="fecha-registro" value="Fecha Registro:" />
+								<p:inputText id="fecha-registro" value="#{p.fechaRegistro}"
+									disabled="true" />
+							</h:panelGroup>
+
+							<!--      -->
+							<!-- USER -->
+							<!--      -->
+							<div class="p-field p-col p-md-3">
+								<p:outputLabel for="fecha-actualizacion"
+									value="Fecha Actualización:" />
+								<p:inputText id="fecha-actualizacion"
+									value="#{p.fechaActualizacion}" disabled="true" />
+							</div>
+						
+						</h:panelGroup>
+						
+						
+						
+						
+						<!--         -->
+						<!-- ACTIONS -->
+						<!--         -->
+						<p:separator styleClass="p-mt-4 p-mb-4" />
+						<h:panelGroup layout="block"
+							styleClass="p-d-flex p-jc-center p-ac-center">
+
+							<!-- EDIT -->
+							<p:commandButton icon="fa fa-fw fa-user-edit"
+								title="Editar Garantia"
+								styleClass="sofia-button-info sofia-button-icon"
+								action="#{garantia.statuActualizar()}"
+								update="@(.sofia-container-main-update), @(.sofia-dialog-update)">
+								<f:param name="id-garantia" value="#{p.id}" />
+							</p:commandButton>
+
+							<!-- REMOVE -->
+							<p:commandButton icon="fa fa-fw fa-user-times"
+								title="Eliminar Garantia"
+								styleClass="sofia-button-error sofia-button-icon"
+								action="#{garantia.eliminar()}"
+								update="@(.sofia-container-main-update), @(.sofia-dialog-update)"
+								oncomplete="PF('sofia-table-update').clearFilters()">
+								<f:param name="id-garantia" value="#{p.id}" />
+								<p:confirm header="Eliminar Garantia"
+									icon="pi pi-exclamation-triangle"
+									message="¿Quiere eliminar la garantia con ID.#{p.id}?" />
+							</p:commandButton>
+
+							
+						</h:panelGroup>
+					</h:panelGroup>
+				</p:rowExpansion>
+			</p:dataTable>
+			
+			
+			<!--         -->
+			<!-- ACTIONS -->
+			<!--         -->
+			<p:separator styleClass="p-mt-4" />
+			<h:panelGroup layout="block"
+				styleClass="d-p-flex p-jc-star p-ac-center p-m-4">
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<p:commandButton icon="pi pi-plus" value="Agregar"
+					styleClass="sofia-button-succes" title="Agregar"
+					action="#{garantia.statuRegistrar()}"
+					update="sofia-container-main-update, :sofia-dialog-update" />
+
+				<!--         -->
+				<!-- SPINNER -->
+				<!--         -->
+				<p:commandButton icon="fa fa-fw fa-spinner" value="Actualizar"
+					onclick="PF('sofia-table-update').clearFilters()"
+					styleClass="sofia-button-warn p-ml-3"
+					update="sofia-container-main-update, :sofia-dialog-update"
+					title="Actualizar" />
+			</h:panelGroup>
+			<p:separator styleClass="p-mb-4" />
+		</p:fieldset>
+	</ui:define>
+
+	<!--        -->
+	<!-- DIALOG -->
+	<!--        -->
+	<ui:define name="component-dialog-advaced">
+
+		<!--                    -->
+		<!-- DIALOG ADD PRODUCT -->
+		<!--                    -->
+		<p:dialog header="Agregar Producto" width="50%"
+			widgetVar="sofia-dialog-product-update"
+			id="sofia-dialog-product-update" resizable="false"
+			styleClass="sofia-dialog-product-update" modal="true"
+			showEffect="explode">
+			<h:form>
+			
+				<p:dataTable id="checkboxDT" var="lp" value="#{garantia.garantia}"
+					paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+								{CurrentPageReport} {NextPageLink} {LastPageLink} {Exporters}"
+					paginator="true" rows="20" rowIndexVar="index"
+					rowsPerPageTemplate="5,10,15,20,50,100"
+					 rowKey="#{lp.id}"
+					expandableRowGroups="true">
+
+
+					<f:facet name="header">
+						<h2>Garantia</h2>
+					</f:facet>
+
+					<!--          -->
+					<!-- CATEGORY -->
+					<!--          -->
+					
+
+					<!-- ID -->
+					<p:column selectionMode="multiple"
+						style="width:30px; text-align:center" />
+
+					<p:column headerText="Id">
+						<h:outputText value="#{garantia.garantia.id}" />
+					</p:column>
+
+					<!-- NAME -->
+					<p:column headerText="Venta N°">
+						<h:outputText value="#{garantia.garantia.venta.idVenta}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton title="Agregar Garantia"
+							action="#{garantia.registrarG()}"
+							icon="fa fa-fw fa-plus-square"
+							oncomplete="PF('sofia-table-update').clearFilters()"
+							update="@(.sofia-container-main-update), @(.sofia-dialog-product-update)"
+							styleClass="sofia-button-icon sofia-button-succes" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+
+		<!--                            -->
+		<!-- Actualizar -->
+		<!--                            -->
+		<p:dialog header="#{garantia.estado} Garantia"
+			widgetVar="sofia-dialog-update" id="sofia-dialog-update"
+			resizable="false" showEffect="explode"
+			styleClass="sofia-dialog-update" modal="true">
+			<h:form>
+				<h:panelGroup layout="block"
+					styleClass="ui-fluid p-formgrid p-d-flex p-jc-end">
+
+					<!--     -->
+					<!-- ID  -->
+					<!--     -->
+					<h:panelGroup layout="block" styleClass="p-field p-col p-md-4">
+						<p:outputLabel for="id-garantia" value="ID:" />
+						<p:inputText id="id-garantia" disabled="#{garantia.hidden}"
+							value="#{garantia.id}" />
+					</h:panelGroup>
+				</h:panelGroup>
+
+				
+
+				<h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid">
+
+					<!--       -->
+					<!-- NAME  -->
+					<!--       -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="id-venta" value="Venta:" />
+						<p:inputText id="id-venta"
+							value="#{garantia.garantia.venta.idVenta}" />
+					</h:panelGroup>
+					
+					
+					
+					
+					<!--       -->
+					<!-- GARANTIA -->
+					<!--       -->
+					<h:panelGroup layout="block" styleClass="p-field p-col">
+						<p:outputLabel for="estado-garantia" value="Descripcion:" />
+						<p:inputText id="estado-garantia"
+							value="#{garantia.garantia.estado}" />
+					</h:panelGroup>
+					
+					
+				</h:panelGroup>
+
+				
+
+
+				<!--     -->
+				<!-- ADD -->
+				<!--     -->
+				<h:panelGroup layout="block"
+					styleClass="p-d-flex p-jc-center p-mb-lg-6 p-mt-lg-6">
+					<p:commandButton value="#{garantia.estado}"
+						styleClass="sofia-button sofia-button-info p-m-0"
+						action="#{garantia.statu()}"
+						update="@(.sofia-container-main-update), :sofia-dialog-update"
+						oncomplete="PF('sofia-table-update').clearFilters()" />
+				</h:panelGroup>
+			</h:form>
+			</p:dialog>
+		
+			
+			
+			
+			
+			
+		
+			
+			
+			
+	</ui:define>
+</ui:composition>
+
+</html>
